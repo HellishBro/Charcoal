@@ -1,7 +1,7 @@
 import MiniMessage from "minimessage-js";
 import type { MiniMessageInstance } from "minimessage-js/types/spec";
 import { randomChoice, range } from "./utils";
-import en_us from "$lib/misc/en_us.json";
+import en_us from "./misc/en_us.json";
 
 export let miniMessage: MiniMessageInstance | null = null;
 export let translations: { [key: string]: string } | null = null;

@@ -2,6 +2,7 @@ import json
 import gzip
 from typing import Literal
 import time
+import os
 
 with open("raw_actiondump.json", encoding="utf-8") as f:
     actiondump = json.loads(f.read())
@@ -287,9 +288,14 @@ table = {
     "potions": potions
 }
 
-with open("../src/lib/misc/actiondump.json") as f:
-    data = json.loads(f.read())
+data = {}
+if os.path.exists("../src/lib/misc/actiondump.json"):
+    with open("../src/lib/misc/actiondump.json") as f:
+        data = json.loads(f.read())
+        if "time" in data:
+            del data["time"]
 
 if data != table:
     with open("../src/lib/misc/actiondump.json", "w+") as f:
+        table["time"] = time.time()
         json.dump(table, f, indent=4)

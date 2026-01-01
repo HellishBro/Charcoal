@@ -4,7 +4,6 @@
     let actiondump = getContext("actiondump").actiondump;
 
     let id = $state(0);
-
     let {data} = $props();
 
     function updateTime() {
@@ -137,7 +136,7 @@
 <h1 id="info"><a href="#info">Miscellaneous Information</a></h1>
 <h2 id="actiondump"><a href="#actiondump">Actiondump Well-Being</a></h2>
 <p>
-    Currently, there are {Object.keys(actiondump.actions_category_reverse_map).length} actions on DiamondFire as of <span class="ago" data-time={data.lastActiondumpUpdate}></span>.
+    Currently, there are {Object.keys(actiondump.actions_category_reverse_map).length} actions on DiamondFire as of <span class="ago" data-time={actiondump.time}></span>.
 </p>
 
 <style>
