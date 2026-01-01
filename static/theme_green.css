@@ -1,0 +1,22 @@
+:root {
+    --background-primary: #101010;
+    --background-secondary: #202020;
+    --background-tertiary: #2e2e2e;
+    --primary: #1dbe00;
+    --primary-light: #76ff5e;
+    --primary-dark: #178f00;
+    --cool-dark: #19501b;
+    --cool: #246526;
+    --cool-light: #42c346;
+    --cool-black: #081207;
+    --white: #cce3df;
+    --black: #020c00;
+    --success: #84ff79;
+    --warning: #fff23e;
+    --error: #ff4444;
+    --info: #65ffbf;
+    --text: #e0ffd8;
+    --text-cool: #d3e1cd;
+    --text-primary: #212121;
+    --text-white: #212121;
+}

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Charcoal</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark light" />
+    <link rel="stylesheet" href="/shared.css" />
+    <link rel="stylesheet" href="/theme_light.css" id="themeLinkElement" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.css"/>
+    <script src="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.js"></script>
+    %sveltekit.head%
+</head>
+<body>
+<div style="height: 100%; display: flex; flex-direction: column; gap: 0">%sveltekit.body%</div>
+
+<script>
+    let theme = window.localStorage.getItem('theme');
+    setTheme(theme ?? "light");
+    fetch("/themes.json").then((res) => res.json()).then(allowedThemes => {
+        if (Object.keys(allowedThemes).indexOf(theme) === -1) {
+            theme = Object.keys(allowedThemes)[0];
+            window.localStorage.setItem('theme', theme);
+            setTheme(theme);
+        }
+    });
+
+    function setTheme(theme) {
+        document.getElementById("themeLinkElement").href = "/theme_" + theme + ".css";
+    }
+</script>
+</body>
+</html>

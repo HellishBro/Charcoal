@@ -1,0 +1,22 @@
+:root {
+    --background-primary: #000000;
+    --background-secondary: #555555;
+    --background-tertiary: #aaaaaa;
+    --primary: #aa00aa;
+    --primary-light: #ff55ff;
+    --primary-dark: #aa5500;
+    --cool-dark: #0000aa;
+    --cool: #00aaaa;
+    --cool-light: #55ffff;
+    --cool-black: #000000;
+    --white: #ffffff;
+    --black: #000000;
+    --success: #55ff55;
+    --warning: #ffff55;
+    --error: #ff5555;
+    --info: #5555ff;
+    --text: #000000;
+    --text-primary: #ffffff;
+    --text-cool: #ffffff;
+    --text-white: #000000;
+}

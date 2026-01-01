@@ -1,0 +1,32 @@
+{
+  "name": "charcoal_df",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build_actiondump": "cd tools && ..\\.venv\\Scripts\\python.exe .\\cleanup_actiondump.py",
+    "dev": "npm run build_actiondump && vite dev",
+    "build": "npm run build_actiondump && vite build",
+    "preview": "npm run build_actiondump && vite preview",
+    "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json"
+  },
+  "devDependencies": {
+    "@rollup/wasm-node": "^4.25.0",
+    "@sveltejs/kit": "^2.20.0",
+    "@sveltejs/vite-plugin-svelte": "^6.2.1",
+    "@tsconfig/svelte": "^5.0.6",
+    "@types/node": "^24.10.1",
+    "@types/pako": "^2.0.4",
+    "@threlte/core": "^8.3.1",
+    "@threlte/extras": "^9.7.1",
+    "@minimessage-js/translations": "^1.2.1",
+    "esbuild-wasm": "^0.21.5",
+    "pako": "^2.1.0",
+    "svelte": "^5.43.8",
+    "svelte-check": "^4.3.4",
+    "typescript": "~5.9.3",
+    "vite": "^7.2.4",
+    "minimessage-js": "^1.2.1",
+    "color-convert": "^3.1.3"
+  }
+}

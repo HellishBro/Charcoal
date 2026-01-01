@@ -1,0 +1,22 @@
+:root {
+    --background-primary: linear-gradient(180deg, #0f0f23 0%, #1a1a3e 100%);
+    --background-secondary: linear-gradient(180deg, #1a1a3e 0%, #252550 100%);
+    --background-tertiary: linear-gradient(180deg, #252550 0%, #2d2d5f 100%);
+    --primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --primary-light: linear-gradient(135deg, #7b8eef 0%, #845fb5 100%);
+    --primary-dark: linear-gradient(135deg, #556fd8 0%, #643a8a 100%);
+    --cool-dark: linear-gradient(135deg, #273668 0%, #202c59 100%);
+    --cool: linear-gradient(135deg, #305a95 0%, #233d80 100%);
+    --cool-light: linear-gradient(135deg, #375ea6 0%, #336aaa 100%);
+    --cool-black: linear-gradient(135deg, #0a0a16 0%, #121228 100%);
+    --white: #e8e7e1;
+    --black: #0a0a0a;
+    --success: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    --warning: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    --error: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    --info: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    --text: #d1d1d1;
+    --text-primary: #d1d5e8;
+    --text-cool: #b9d9f1;
+    --text-white: #0a0a0a;
+}

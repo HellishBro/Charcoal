@@ -1,0 +1,12 @@
+{
+  "light": "Light",
+  "dark": "Dark",
+  "gray": "Grayscale",
+  "desert": "Desert",
+  "ocean": "Ocean",
+  "ansi": "ANSI",
+  "discord": "Discord",
+  "green": "Green",
+  "jetbrains_dark": "JetBrains Dark",
+  "cool": "Cool"
+}
