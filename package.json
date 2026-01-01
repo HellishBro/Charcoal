@@ -11,7 +11,6 @@
     "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json"
   },
   "devDependencies": {
-    "@minimessage-js/translations": "^1.2.1",
     "@rollup/wasm-node": "^4.25.0",
     "@rollup/plugin-commonjs": "^29.0.0",
     "@sveltejs/adapter-cloudflare": "^7.2.4",
