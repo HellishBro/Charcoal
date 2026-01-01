@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "charcoal-env",
+  "name": "charcoal",
   "main": ".svelte-kit/cloudflare/_worker.js",
   "compatibility_date": "2025-01-01",
   "compatibility_flags": [
@@ -9,5 +9,11 @@
   "assets": {
     "binding": "ASSETS",
     "directory": ".svelte-kit/cloudflare"
-  }
+  },
+  "routes": [
+    {
+      "pattern": "charcoal-env.xyz",
+      "custom_domain": true
+    }
+  ]
 }
