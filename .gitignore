@@ -1,7 +1,5 @@
 tools/parse_actiondump_from_log.py
 
-wrangler.jsonc
-
 # Logs
 logs
 *.log
@@ -15,6 +13,10 @@ node_modules
 dist
 dist-ssr
 *.local
+
+# Framework
+.svelte-kit/
+.wrangler/
 
 # Editor directories and files
 .vscode/*
