@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "build_actiondump": "cd tools && ..\\.venv\\Scripts\\python.exe .\\cleanup_actiondump.py",
-    "dev": "npm run build_actiondump && vite dev",
-    "build": "npm run build_actiondump && vite build",
-    "preview": "npm run build_actiondump && vite preview",
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json"
   },
   "devDependencies": {
