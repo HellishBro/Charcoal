@@ -2,7 +2,9 @@ import { sveltekit } from '@sveltejs/kit/vite';
 import {defineConfig, searchForWorkspaceRoot} from 'vite';
 
 export default defineConfig({
-    plugins: [sveltekit()],
+    plugins: [
+        sveltekit()
+    ],
     server: {
         host: '0.0.0.0',
         fs: {
@@ -14,5 +16,10 @@ export default defineConfig({
     },
     assetsInclude: [
         "/static/**"
-    ]
+    ],
+    build: {
+        commonjsOptions: {
+            dynamicRequireTargets: ["node_modules/@minimessage-js/translations"]
+        }
+    }
 });

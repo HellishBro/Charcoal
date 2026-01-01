@@ -1,5 +1,8 @@
 tools/parse_actiondump_from_log.py
 
+wrangler.jsonc
+src/lib/misc/en_us.json
+
 # Logs
 logs
 *.log

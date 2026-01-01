@@ -287,8 +287,9 @@ table = {
     "potions": potions
 }
 
-with open("../src/lib/misc/actiondump.json", "w+") as f:
-    json.dump(table, f, indent=4)
+with open("../src/lib/misc/actiondump.json") as f:
+    data = json.loads(f.read())
 
-with open("../src/lib/misc/last_actiondump_update.txt", "w+") as f:
-    f.write(str(time.time()))
+if data != table:
+    with open("../src/lib/misc/actiondump.json", "w+") as f:
+        json.dump(table, f, indent=4)

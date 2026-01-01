@@ -1,13 +1,14 @@
 import MiniMessage from "minimessage-js";
 import type { MiniMessageInstance } from "minimessage-js/types/spec";
 import { randomChoice, range } from "./utils";
+import en_us from "$lib/misc/en_us.json";
 
 export let miniMessage: MiniMessageInstance | null = null;
 export let translations: { [key: string]: string } | null = null;
 
 export async function fetchTranslations() {
     if (!translations)
-        translations = (await import("@minimessage-js/translations")).get("en-us");
+        translations = en_us;
 }
 
 export async function render(mm: string): Promise<string> {
