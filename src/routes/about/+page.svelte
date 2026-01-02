@@ -113,12 +113,15 @@
     <a href="https://github.com/homchom/recode">Recode</a> is an archived mod for DiamondFire.
     It was created on May 1st, 2022, <span class="ago" data-time={1651365142}></span>, as the successor of <a href="#codeutilities">CodeUtilities</a>.
     It was the de-facto standard mod for DiamondFire, and almost every external tool used this mod to send templates to the game.
+    Recode reached its End-of-Life on September 3rd, 2024, <span class="ago" data-time={1725382761}></span>.
 </p>
 <h2 id="codeutilities"><a href="#codeutilities">CodeUtilities</a></h2>
 <p>
-    <a href="https://github.com/CodeUtilities/CodeUtilities">CodeUtilities</a> is the predecessor to <a href="#recode">Recode</a>.
-    Open-sourced on February 13th, 2022, <span class="ago" data-time={1644770702}></span>, it reached its End-of-Life on August 20th, 2022, <span class="ago" data-time={1661006742}></span>.
-    It was succeeded by <a href="#recode">Recode</a> and CodeUtilities-2.0, which was later abandoned on April 24th, 2022, <span class="ago" data-time={1650779446}></span>.
+    <a href="https://github.com/CodeUtilities/CodeUtilities">CodeUtilities</a>, the successor of a previous DFUtils, is the predecessor to <a href="#recode">Recode</a>.
+    Created on December 27th, 2019, <span class="ago" data-time={1577491026}></span>, it reached its End-of-Life on August 20th, 2022, <span class="ago" data-time={1661006742}></span>.
+    During the mod's development, most developers and contributors were either hired as DiamondFire's server developers, or quit due to a lack of motivation.
+    CodeUtilities was succeeded by <a href="#recode">Recode</a> and CodeUtilities-2.0, which was later abandoned on April 24th, 2022, <span class="ago" data-time={1650779446}></span>.
+    The two successors are as a result of internal disagreements about the mod's progression.
 </p>
 <h1 id="credits"><a href="#credits">Credits</a></h1>
 <h2 id="me"><a href="#me">I</a></h2>
