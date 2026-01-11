@@ -8,7 +8,7 @@
     import { onMount } from "svelte";
     import Inspector from "$lib/components/editor/Inspector.svelte";
     import { setInspectorObjects } from "$lib/components/editor/Inspector.svelte";
-    import { CATEGORY_COLOR_MAP, TYPE_DISPLAY_COLORS_MAP, TYPE_DISPLAY_MAP } from "$lib/df_reprs";
+    import {CATEGORY_COLOR_MAP, secondLine, TYPE_DISPLAY_COLORS_MAP, TYPE_DISPLAY_MAP} from "$lib/df_reprs";
     import {toURLSafeB64} from "$lib/utils.ts";
     import {replaceState} from "$app/navigation";
 
@@ -79,7 +79,7 @@
             color = inspectingItemItem ? TYPE_DISPLAY_COLORS_MAP[inspectingItemItem.id] : "";
         }
         if (editBlockIndex != -1) {
-            text = (templateObject.blocks[editBlockIndex] as Codeblock).action || "&lt;empty&gt;";
+            text = secondLine(templateObject.blocks[editBlockIndex] as Codeblock) || "&lt;empty&gt;";
             color = CATEGORY_COLOR_MAP[(templateObject.blocks[editBlockIndex] as Codeblock).category];
         }
         return "<" + color + ">" + text + "</" + color + ">";
