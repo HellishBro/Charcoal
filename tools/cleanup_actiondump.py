@@ -93,7 +93,8 @@ TYPE_ID_MAP = {
     "ENTITY_TYPE": "entity_type",
     "VEHICLE": "vehicle",
     "NONE": "none",
-    "BYTE": "byte"
+    "BYTE": "byte",
+    "RANDOM_GENERATOR": "random_generator" # new data type on node Beta. Formed using set_var.RandomGenerator
 }
 
 
