@@ -139,8 +139,16 @@
 <h1 id="info"><a href="#info">Miscellaneous Information</a></h1>
 <h2 id="actiondump"><a href="#actiondump">Actiondump Well-Being</a></h2>
 <p>
-    Currently, there are {Object.keys(actiondump.actions_category_reverse_map).length} actions on DiamondFire as of <span class="ago" data-time={actiondump.time}></span>.
+    On DiamondFire, as of <span class="ago" data-time={actiondump.time}></span>, there are:
 </p>
+<ul>
+    <li>{Object.keys(actiondump.actions_category_reverse_map).length} actions,</li>
+    <li>{Object.keys(actiondump.codeblocks).length} categories,</li>
+    <li>{Object.keys(actiondump.gvs).length} game values,</li>
+    <li>{Object.keys(actiondump.particles).length} particles,</li>
+    <li>{Object.keys(actiondump.sounds).length} sounds,</li>
+    <li>and {Object.keys(actiondump.potions).length} potions.</li>
+</ul>
 
 <style>
     p a {
@@ -150,5 +158,10 @@
     .ago {
         font-family: "minecraftSeven", monospace;
         font-size: 0.8em;
+    }
+
+    li {
+        background: none;
+        padding: 0;
     }
 </style>
