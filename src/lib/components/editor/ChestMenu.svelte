@@ -5,7 +5,6 @@
     import {startObfuscateText, stopObfuscatedText} from "$lib/minimessage";
     import {getContext, onDestroy, onMount} from "svelte";
     import {secondLine} from "$lib/df_reprs";
-    import ContextMenu, {type Option} from "$lib/components/ContextMenu.svelte";
     import {type InspectorObject, isSpecialCase} from "$lib/components/editor/Inspector.svelte";
     import ChestMenuItem from "$lib/components/editor/ChestMenuItem.svelte";
 
@@ -83,6 +82,7 @@
         let contents = block.args;
         chestItems = range(0, 27).map(_ => null);
         for (let arg of contents) {
+            if (arg.slot > 27) continue;
             chestItems[arg.slot] = arg;
         }
     }
@@ -118,7 +118,7 @@
             e.stopPropagation();
         }}>
             <p style="grid-column: 1 / 10; font-size: 20px; color: var(--text-cool); cursor: text;">
-                Chest: {block == null || block.isBracket() ? "" : actions[block.category][block.action]?.name ?? "<empty>"}
+                Chest: {block == null || block.isBracket() ? "" : actions[block.category][block.action]?.name ?? (secondLine(block) ?? "<empty>")}
             </p>
             {#each chestItems as item, index}
                 {@const blTags = actions[block.category][block.action]?.block_tags ?? []}
