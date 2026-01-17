@@ -11,6 +11,7 @@
     import {CATEGORY_COLOR_MAP, secondLine, TYPE_DISPLAY_COLORS_MAP, TYPE_DISPLAY_MAP} from "$lib/df_reprs";
     import {toURLSafeB64} from "$lib/utils.ts";
     import {replaceState} from "$app/navigation";
+    import {getTemplateData} from "$lib/templatedata.ts";
 
     let { template = "" } = $props();
     let templateObject = $state((() => template)() ? Template.decodeTemplate((() => template)()) : new Template([]));
@@ -31,29 +32,18 @@
 
     function inputTemplate(event: Event) {
         template = (event.target as HTMLTextAreaElement).value.trim();
-        if (template.startsWith("'") && template.endsWith("'")) {
-            template = template.substring(1, template.length - 1);
-        }
-        try {
-            if (isJSON(template) && template.length != 0) {
-                let json = JSON.parse(template);
-                if ("code" in json) {
-                    templateObject = Template.decodeTemplate(json.code);
-                } else {
-                    templateObject = Template.fromJSON(JSON.parse(template));
-                }
+
+        const response = getTemplateData(template);
+
+        switch (response.status) {
+            case "success":
+                templateObject = response.templateObject;
                 setStatus("success");
-            } else if (template.matchAll(/[a-zA-Z0-9+/=]+/g)) {
-                templateObject = Template.decodeTemplate(template);
-                setStatus("success");
-            } else if (template.length == 0) {
-                templateObject = new Template([]);
-                setStatus("success");
-            } else {
-                setStatus("error", "Cannot parse template because template does not match any acceptable template format.");
-            }
-        } catch (e) {
-            setStatus("error", "Cannot parse template: " + e.toString());
+                break;
+
+            case "error":
+                setStatus("error", response.message);
+                break;
         }
     }
 
