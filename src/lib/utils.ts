@@ -1,3 +1,5 @@
+import * as badWords from "./misc/bad_words.txt";
+
 export function isJSON(s: string): boolean {
     try {
         JSON.parse(s);
@@ -48,8 +50,26 @@ export function downloadBlob(blob: Blob, filename: string) {
     }
 }
 
+export function percentEncodeString(str: string): string {
+    return str.split('')
+        .map(char => '%' + char.charCodeAt(0).toString(16).toUpperCase())
+        .join('');
+}
+
+function encodeSwearWords(str: string): string {
+    const swearWords = badWords.default.split("\n");
+    let result = str;
+
+    swearWords.forEach(word => {
+        const regex = new RegExp(word, 'gi');
+        result = result.replace(regex, (match) => percentEncodeString(match));
+    });
+
+    return result;
+}
+
 export function toURLSafeB64(base64: string): string {
-    return base64.replaceAll("+", "-").replaceAll("/", "_").replaceAll("=", "");
+    return encodeSwearWords(base64.replaceAll("+", "-").replaceAll("/", "_").replaceAll("=", ""));
 }
 
 export function fromURLSafeB64(urlSafe: string): string {
