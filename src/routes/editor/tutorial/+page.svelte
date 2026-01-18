@@ -1,9 +1,8 @@
 <script lang="ts">
 	import {blur} from 'svelte/transition';
     import {getTemplateData} from "$lib/templatedata.ts";
-    import {Template} from "$lib/diamondfire";
-    import {page} from '$app/stores'
     import {toURLSafeB64} from "$lib/utils.ts";
+    import CodeBlock from "$lib/components/CodeBlock.svelte";
 
     const MAX_STEPS = 5;
 
@@ -33,6 +32,15 @@
     <meta name="description" content="Walkthrough of how to import code" />
 </svelte:head>
 
+<svelte:window onkeydown={(e: KeyboardEvent) => {
+    if (e.key === "ArrowLeft") {
+        if (prevEnabled) currentStep--;
+    }
+    if (e.key === "ArrowRight") {
+        if (nextEnabled) currentStep++;
+    }
+}}></svelte:window>
+
 {#snippet step(i)}
     {#key i}
         <div in:blur={{ duration: 300 }}>
@@ -50,7 +58,7 @@
                 <img src="/images/tutorial/codetemplatedata.png" alt="" style="width: 50%;" />
             {:else if i === 4}
                 <p>Paste it here:</p>
-                <input class="nbt-input" type="text" name="" id="" bind:value={codetemplatedata} />
+                <input class="nbt-input" type="text" name="" id="" bind:value={codetemplatedata} onkeydown={e => {e.stopPropagation()}} />
                 {#if codetemplatedata === ""}
                     <p in:blur={{ duration: 300 }}>No NBT input</p>
                 {:else if !valid}
@@ -60,10 +68,10 @@
                 {/if}
             {:else if i === 5}
                 <p>Share the following link: </p>
-                <pre>https://charcoal-env.xyz/editor?template={templateUrl}</pre>
+                <CodeBlock inner={`https://charcoal-env.xyz/editor?template=${templateUrl}`}></CodeBlock>
                 <br />
                 <p>If sharing on Discord, use this embedded link:</p>
-                <pre>[code template](https://charcoal-env.xyz/editor?template={templateUrl})</pre>
+                <CodeBlock inner={`[code template](https://charcoal-env.xyz/editor?template=${templateUrl})`}></CodeBlock>
                 <!-- open link in new tab -->
                 <p><a href={"https://charcoal-env.xyz/editor?template=" + templateUrl} target="_blank" rel="noopener noreferrer">Open in Charcoal Editor</a></p>
             {/if}
@@ -90,11 +98,5 @@
 
     a {
         text-decoration: underline;
-    }
-
-    pre {
-        overflow-wrap: break-word;
-        white-space: pre-wrap;
-        max-height: 200px;
     }
 </style>
