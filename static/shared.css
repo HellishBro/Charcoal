@@ -138,6 +138,13 @@ button:active, input[type="button"]:active, input[type="submit"]:active, input[t
     transform: translateY(0);
 }
 
+button:disabled, input[type="button"]:disabled, input[type="submit"]:disabled, input[type="reset"]:disabled {
+    background: var(--background-tertiary);
+    color: var(--text-secondary);
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
 /* Forms */
 input, textarea, select, .input-like {
     background: var(--white);
