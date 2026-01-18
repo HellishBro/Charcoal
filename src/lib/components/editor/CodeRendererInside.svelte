@@ -229,7 +229,7 @@
                 }
             }
             if (["func", "call_func", "process", "start_process"].includes(block.category)) {
-                block.data = block.action;
+                block.data = block.data ?? block.action;
                 block.action = null;
             } else {
                 block.action = block.data ?? block.action in allActions[block.category] ? block.data ?? block.action : "";
