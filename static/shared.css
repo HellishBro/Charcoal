@@ -20,7 +20,7 @@ body {
     border-radius: 15px;
     background: var(--background-primary);
     height: 100vh;
-    font-size: 15px;
+    font-size: calc(15em / default);
     gap: 0;
 }
 
@@ -201,6 +201,21 @@ nav {
     display: flex;
     flex-direction: row;
     gap: 12px;
+}
+
+nav ul {
+    display: flex;
+    flex-direction: row;
+}
+
+nav li {
+    display: inline-block;
+}
+
+nav ul, nav li {
+    list-style: none;
+    padding: 0;
+    margin: 2px;
 }
 
 /* Status messages */

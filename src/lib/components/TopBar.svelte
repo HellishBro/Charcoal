@@ -1,5 +1,8 @@
 <script lang="ts">
-    import { onMount } from "svelte";
+    import {getContext, onMount} from "svelte";
+    import { afterNavigate } from "$app/navigation";
+    import {slide} from "svelte/transition";
+    import {Menu} from "@lucide/svelte";
 
     let allThemes: string[] = $state([]);
     let theme = $state("");
@@ -21,24 +24,39 @@
     function setTheme(theme) {
         document.getElementById("themeLinkElement").href = "/theme_" + theme + ".css";
     }
+
+    let menuVisible = $state(false);
+
+    afterNavigate(() => {
+        menuVisible = false;
+    });
+
+    let isMobile: boolean = $derived(getContext("mobile").isMobile);
 </script>
 
-<nav>
-    <a href="/">Charcoal</a>
-    <a href="/about">About</a>
-    <a href="/editor">Editor</a>
-    <div style="position: absolute; top: 0; right: 10px; display: flex; align-items: center;">
-        <label for="themeSelector" style="display: inline; margin-right: 5px">Theme:</label>
-        <select
-                onchange={toggleTheme}
-                style="background: var(--primary); color: var(--text-primary); display: inline"
-                id="themeSelector"
-        >
-            {#each Object.entries(allThemes) as thisTheme}
-                <option name="{thisTheme[0]}" value="{thisTheme[0]}" selected={theme === thisTheme[0]}>{thisTheme[1]}</option>
-            {/each}
-        </select>
-    </div>
+<nav class:mobile={isMobile} style="z-index: 1000; height: {menuVisible && isMobile ? '100vh' : 'auto'}; display: relative">
+    {#if isMobile}
+        <button onclick={() => menuVisible = !menuVisible}><Menu style="width: 1em; height: 1em;"></Menu></button>
+    {/if}
+    {#if menuVisible || !isMobile}
+        <ul class:mobile={isMobile} transition:slide={{axis: 'x'}}>
+            <li><a href="/">Charcoal</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/editor">Editor</a></li>
+            <li id="themeSwitcher" style="display: flex;">
+                <label for="themeSelector" style="display: inline; margin-right: 5px">Theme:</label>
+                <select
+                        onchange={toggleTheme}
+                        style="background: var(--primary); color: var(--text-primary); display: inline"
+                        id="themeSelector"
+                >
+                    {#each Object.entries(allThemes) as thisTheme}
+                        <option name="{thisTheme[0]}" value="{thisTheme[0]}" selected={theme === thisTheme[0]}>{thisTheme[1]}</option>
+                    {/each}
+                </select>
+            </li>
+        </ul>
+    {/if}
 </nav>
 
 <style>
@@ -49,5 +67,54 @@
 
     nav {
         margin: 0;
+    }
+
+    li#themeSwitcher {
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 10px;
+        align-items: center
+    }
+
+    .mobile {
+        nav& {
+            position: fixed;
+            flex-direction: column;
+            border-radius: 0 12px 12px 0;
+
+            & button {
+                margin-right: 10px;
+                margin-left: auto;
+                width: 3em;
+                aspect-ratio: 1;
+                padding: 0;
+                align-items: center;
+            }
+        }
+        ul& {
+            flex-direction: column;
+            align-items: center;
+            gap: 1.25em;
+
+            & li {
+                display: block;
+
+                & a {
+                    padding-top: 0.75em;
+                    padding-bottom: 0.75em;
+                }
+            }
+        }
+        li#themeSwitcher {
+            top: auto;
+            bottom: 10px;
+            left: 10px;
+            flex-direction: column;
+
+            & select {
+                text-align: center;
+            }
+        }
     }
 </style>
