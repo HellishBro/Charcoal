@@ -36,7 +36,7 @@
 
 <TopBar></TopBar>
 
-<div class="main-content" style="height: calc(100% - 42px)">
+<div class="main-content" style={{"height": isMobile.isMobile ? "100%" : "calc(100% - 42px)"}}>
     {@render children?.()}
 </div>
 

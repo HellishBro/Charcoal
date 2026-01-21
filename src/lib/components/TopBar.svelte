@@ -1,7 +1,7 @@
 <script lang="ts">
     import {getContext, onMount} from "svelte";
     import { afterNavigate } from "$app/navigation";
-    import {slide} from "svelte/transition";
+    import {slide, crossfade} from "svelte/transition";
     import {Menu} from "@lucide/svelte";
 
     let allThemes: string[] = $state([]);
@@ -34,12 +34,15 @@
     let isMobile: boolean = $derived(getContext("mobile").isMobile);
 </script>
 
-<nav class:mobile={isMobile} style="z-index: 1000; height: {menuVisible && isMobile ? '100vh' : 'auto'}; display: relative">
+{#if isMobile}
+    <button onclick={() => menuVisible = !menuVisible} id="hamburgerMenu"><Menu style="width: 1em; height: 1em;"></Menu></button>
+{/if}
+{#if menuVisible || !isMobile}
     {#if isMobile}
-        <button onclick={() => menuVisible = !menuVisible}><Menu style="width: 1em; height: 1em;"></Menu></button>
+        <div role="presentation" transition:crossfade style="position: fixed; width: 100vw; height: 100vh; z-index: 999; background: rgba(0, 0, 0, 0.2);" onclick={() => {menuVisible = false}}></div>
     {/if}
-    {#if menuVisible || !isMobile}
-        <ul class:mobile={isMobile} transition:slide={{axis: 'x'}}>
+    <nav class:mobile={isMobile} transition:slide={{axis: "x"}} style="z-index: 1000; height: {menuVisible && isMobile ? '100vh' : 'auto'}; display: relative">
+        <ul class:mobile={isMobile}>
             <li><a href="/">Charcoal</a></li>
             <li><a href="/about">About</a></li>
             <li><a href="/editor">Editor</a></li>
@@ -56,8 +59,8 @@
                 </select>
             </li>
         </ul>
-    {/if}
-</nav>
+    </nav>
+{/if}
 
 <style>
     nav a {
@@ -77,20 +80,22 @@
         align-items: center
     }
 
+    #hamburgerMenu {
+        position: absolute;
+        margin-left: 10px;
+        margin-top: 10px;
+        z-index: 998;
+        width: 3em;
+        height: 3em;
+        padding: 0;
+        align-items: center;
+    }
+
     .mobile {
         nav& {
             position: fixed;
             flex-direction: column;
             border-radius: 0 12px 12px 0;
-
-            & button {
-                margin-right: 10px;
-                margin-left: auto;
-                width: 3em;
-                aspect-ratio: 1;
-                padding: 0;
-                align-items: center;
-            }
         }
         ul& {
             flex-direction: column;
