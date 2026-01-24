@@ -4,7 +4,6 @@
     import { CodeClient } from "$lib/codeclient"
     import CodeRenderer from "$lib/components/editor/CodeRenderer.svelte";
     import ChestMenu from "$lib/components/editor/ChestMenu.svelte";
-    import { isJSON } from "$lib/utils";
     import {onMount, setContext} from "svelte";
     import Inspector from "$lib/components/editor/Inspector.svelte";
     import { setInspectorObjects } from "$lib/components/editor/Inspector.svelte";

@@ -26,6 +26,18 @@
 
     let divElement = $state(null);
     let maxX = $state(0);
+
+    let lastTouchPosition: [number, number] = $state([0, 0]);
+    function touchStart(event: TouchEvent) {
+        let touch = event.changedTouches[0];
+        lastTouchPosition = [touch.clientX, touch.clientY];
+    }
+    function touchMove(event: TouchEvent) {
+        let touch = event.changedTouches[0];
+        let delta = [touch.clientX - lastTouchPosition[0], touch.clientY - lastTouchPosition[1]];
+        lastTouchPosition = [touch.clientX, touch.clientY];
+        cameraX.target -= delta[0] * 0.02;
+    }
 </script>
 
 <div onwheel={ev => {
@@ -43,7 +55,9 @@
     editBlockIndex = -1;
     setInspectorObjects(null);
 }} role="presentation" bind:this={divElement}>
-    <Canvas createRenderer={canvas => {
+    <Canvas createRenderer={(canvas: HTMLCanvasElement) => {
+        canvas.addEventListener("touchstart", touchStart);
+        canvas.addEventListener("touchmove", touchMove);
         return new WebGLRenderer({
             canvas,
             preserveDrawingBuffer: true,
