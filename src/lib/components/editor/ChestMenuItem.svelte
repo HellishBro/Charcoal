@@ -4,6 +4,7 @@
     import {TYPE_DISPLAY_MAP} from "$lib/df_reprs";
     import type {InspectorObject} from "$lib/components/editor/Inspector.svelte";
     import {setContextMenu} from "$lib/components/ContextMenu.svelte";
+    import {getContext} from "svelte";
 
     let {
         freezeInDepthView = $bindable(),
@@ -22,10 +23,12 @@
     } = $props();
 
     let inspectorObjects: InspectorObject[][] | null = $state(null);
+    let isMobile: boolean = $derived(getContext("editorMobile").isMobile);
 </script>
 
 <button
         class="item"
+        class:mobile={isMobile}
         onpointermove={pointerMove}
         onclick={e => {
             freezeInDepthView = innerItem !== null;
@@ -100,12 +103,16 @@
 
 <style>
     .item {
-        width: 75px;
-        height: 75px;
+        width: 4vw;
+        height: 4vw;
         background: var(--cool);
         border-radius: 10px;
         cursor: pointer;
         padding: 0;
         margin: 0;
+    }
+    .item.mobile {
+        width: 6.5vw;
+        height: 6.5vw;
     }
 </style>

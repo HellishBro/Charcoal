@@ -6,7 +6,8 @@
         callback: () => {
             options: Option[],
             flexDirection?: string,
-            openLeft?: string,
+            openLeft?: boolean,
+            openUp?: boolean,
             maxWidth?: number | string
         } | null,
     }
@@ -17,14 +18,16 @@
     let options = $state([]);
     let flexDirection = $state("column");
     let openLeft = $state(false);
+    let openUp = $state(false);
 
-    export function setContextMenu(event: PointerEvent, options_: Option[], flexDirection_: string = "column", openLeft_: boolean = false) {
+    export function setContextMenu(event: PointerEvent, options_: Option[], flexDirection_: string = "column", openLeft_?: boolean, openUp_?: boolean) {
         visible = true;
         x = event.clientX;
         y = event.clientY;
         options = options_;
         flexDirection = flexDirection_;
-        openLeft = openLeft_;
+        openLeft = openLeft_ ?? (x > window.innerWidth / 2);
+        openUp = openUp_ ?? (y > window.innerHeight / 2);
     }
 </script>
 
@@ -60,6 +63,13 @@
             return x;
         }
     });
+    let actualY = $derived.by(() => {
+        if (openUp) {
+            return y - (contextMenu ? contextMenu.offsetHeight : 0);
+        } else {
+            return y;
+        }
+    })
 </script>
 
 {#if visible}
@@ -72,7 +82,7 @@
                 e.preventDefault();
             }}
     ></div>
-    <div class="context-menu" bind:this={contextMenu} style="left: {actualX}px; top: {y}px; flex-direction: {flexDirection}; gap: {flexDirection === 'column' ? 2 : 5}px;" role="presentation" {oncontextmenu}>
+    <div class="context-menu" bind:this={contextMenu} style="left: {actualX}px; top: {actualY}px; flex-direction: {flexDirection}; gap: {flexDirection === 'column' ? 2 : 5}px;" role="presentation" {oncontextmenu}>
         {#each options as option, idx}
             <button
                     title={option.tooltip}
@@ -83,6 +93,7 @@
                             options = newCM.options;
                             flexDirection = newCM.flexDirection ?? flexDirection;
                             openLeft = newCM.openLeft ?? openLeft;
+                            openUp = newCM.openUp ?? openUp;
                         } else {
                             visible = false;
                         }
@@ -93,7 +104,7 @@
                 {#if option.label}
                     <MiniMessageRenderer mm={option.label}></MiniMessageRenderer>
                 {:else}
-                    <img src={option.image} alt={option.tooltip} style="height: calc(1em + 20px);" />
+                    <img src={option.image} alt={option.tooltip} style="height: 2em;" />
                 {/if}
             </button>
         {/each}
@@ -103,7 +114,7 @@
 <style>
     .context-menu {
         display: flex;
-        z-index: 1000;
+        z-index: 10000;
         position: fixed;
         background: var(--cool-dark);
         border: 3px solid var(--cool-black);
@@ -111,7 +122,7 @@
         padding: 10px;
         margin: 0;
         flex-wrap: wrap;
-        max-width: 25vw;
+        max-width: max(25vw, 250px);
     }
     .context-menu-item {
         color: var(--text-cool);

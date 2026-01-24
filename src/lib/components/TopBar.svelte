@@ -41,7 +41,7 @@
     {#if isMobile}
         <div role="presentation" transition:crossfade style="position: fixed; width: 100vw; height: 100vh; z-index: 999; background: rgba(0, 0, 0, 0.2);" onclick={() => {menuVisible = false}}></div>
     {/if}
-    <nav class:mobile={isMobile} transition:slide={{axis: "x"}} style="z-index: 1000; height: {menuVisible && isMobile ? '100vh' : 'auto'}; display: relative">
+    <nav class:mobile={isMobile} transition:slide={{axis: "x"}} style="z-index: 1000; height: {menuVisible && isMobile ? '85vh' : 'auto'}; display: relative">
         <ul class:mobile={isMobile}>
             <li><a href="/">Charcoal</a></li>
             <li><a href="/about">About</a></li>

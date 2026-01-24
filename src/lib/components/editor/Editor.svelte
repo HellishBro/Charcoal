@@ -5,7 +5,7 @@
     import CodeRenderer from "$lib/components/editor/CodeRenderer.svelte";
     import ChestMenu from "$lib/components/editor/ChestMenu.svelte";
     import { isJSON } from "$lib/utils";
-    import { onMount } from "svelte";
+    import {onMount, setContext} from "svelte";
     import Inspector from "$lib/components/editor/Inspector.svelte";
     import { setInspectorObjects } from "$lib/components/editor/Inspector.svelte";
     import {CATEGORY_COLOR_MAP, secondLine, TYPE_DISPLAY_COLORS_MAP, TYPE_DISPLAY_MAP} from "$lib/df_reprs";
@@ -13,7 +13,15 @@
     import {replaceState} from "$app/navigation";
     import {getTemplateData} from "$lib/templatedata.ts";
 
-    let { template = "" } = $props();
+    let { template = "", containerWidth, containerHeight }: { template: str, containerWidth: number, containerHeight: number } = $props();
+    $effect(() => {
+        isMobile.isMobile = containerHeight == 0 ? false : containerWidth / containerHeight <= 9 / 10;
+    });
+    let isMobile = $state({
+        isMobile: false
+    });
+    setContext("editorMobile", isMobile);
+
     let templateObject = $state((() => template)() ? Template.decodeTemplate((() => template)()) : new Template([]));
     let templateDisplay = $state((() => template)() ? JSON.stringify((() => templateObject)().toJSON(), null, 4) : "");
 
@@ -92,8 +100,8 @@
     let inspectingTitle = $derived.by(getInspectingTitle);
 </script>
 
-<div class="container">
-    <div style="display: grid; grid-template-rows: 3fr 1fr; gap: 20px; min-height: 0; height: 100%; box-sizing: border-box; align-items: stretch">
+<div class="container" class:mobile={isMobile.isMobile}>
+    <div id="import-export">
         <div style="position: relative">
             <textarea
                     oninput={inputTemplate}
@@ -141,11 +149,31 @@
     .container {
         display: grid;
         grid-template-columns: 20% 1fr 20%;
+        grid-template-rows: 1fr;
         gap: 20px;
         padding: 20px;
         width: 100%;
         height: 100%;
         align-items: stretch;
+    }
+
+    .container.mobile {
+        grid-template-columns: 1fr;
+        grid-template-rows: 20% 1fr 20%;
+    }
+    #import-export {
+        display: grid;
+        grid-template-rows: 3fr 1fr;
+        grid-template-columns: 1fr;
+        gap: 20px;
+        min-height: 0;
+        height: 100%;
+        box-sizing: border-box;
+        align-items: stretch;
+    }
+    .mobile #import-export {
+        grid-template-rows: 1fr;
+        grid-template-columns: 3fr 1fr;
     }
 
     #codeStatus {

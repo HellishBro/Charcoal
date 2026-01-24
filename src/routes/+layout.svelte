@@ -1,6 +1,6 @@
 <script lang="ts">
     import TopBar from "$lib/components/TopBar.svelte";
-    import {onMount, setContext} from "svelte";
+    import {setContext} from "svelte";
     import ContextMenu from "$lib/components/ContextMenu.svelte";
     import { onNavigate } from '$app/navigation';
 

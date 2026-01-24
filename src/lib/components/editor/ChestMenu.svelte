@@ -199,6 +199,6 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        gap: 10px;
+        gap: min(10px, 1vw);
     }
 </style>
