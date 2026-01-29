@@ -1,4 +1,5 @@
-tools/parse_actiondump_from_log.*
+tools/parse_actiondump_from_log.py
+tools/parse_actiondump_from_log.bat
 
 # Logs
 logs

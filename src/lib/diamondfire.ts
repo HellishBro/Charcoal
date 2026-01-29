@@ -119,6 +119,7 @@ export const CATEGORY_ATTRIBUTES: Map<string, string> = new Map<string, string>(
     {
         event: 'LS-CANCEL',
         entity_event: 'LS-CANCEL',
+        game_event: 'LS-CANCEL',
         if_entity: 'NOT',
         if_game: 'NOT',
         if_player: 'NOT',

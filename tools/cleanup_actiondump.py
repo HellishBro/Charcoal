@@ -148,10 +148,12 @@ def parse_actions(actions: list[dict], codeblock_name_reverse_map: dict[str, str
         parsed[identifier][action["name"]] = {
             "material": action["icon"]["material"].lower(),
             "name": action["icon"]["name"] or action["name"],
+            "aliases": action["icon"]["aliases"] if "aliases" in action["icon"] else [],
             "deprecated": check_deprecation(action["name"], action["icon"]["name"], actions),
             "requires": {
                 "tokens": action["icon"]["requireTokens"],
-                "rank": action["icon"]["requiredRank"] or None
+                "rank": action["icon"]["requiredRank"] or None,
+                "world_plot": action["icon"]["worldExclusive"] or False
             },
             "advanced": action["icon"]["advanced"],
             "works_with": action["icon"]["worksWith"],
@@ -159,7 +161,8 @@ def parse_actions(actions: list[dict], codeblock_name_reverse_map: dict[str, str
             "arguments": parse_arguments(action["icon"]["arguments"] if "arguments" in action["icon"] else []),
             "returns": parse_returns(action["icon"]["returnValues"] if "returnValues" in action["icon"] else []),
             "additional_information": parse_additional_information(action["icon"]["additionalInfo"]),
-            "description": "\n".join(action["icon"]["description"])
+            "description": "\n".join(action["icon"]["description"]),
+            "subactions": action["subActionBlocks"] if "subActionBlocks" in action else []
         }
         if identifier.endswith("event"):
             parsed[identifier][action["name"]]["cancellable"] = ("auto" if action["icon"]["cancelledAutomatically"] else action["icon"]["cancellable"]) if "cancellable" in action["icon"] else False
