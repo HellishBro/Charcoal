@@ -138,9 +138,10 @@ def parse_returns(returns: list[dict]) -> list[dict]:
     return parsed
 
 
-def parse_actions(actions: list[dict], codeblock_name_reverse_map: dict[str, str]) -> tuple[dict, dict]:
+def parse_actions(actions: list[dict], codeblock_name_reverse_map: dict[str, str]) -> tuple[dict, dict, dict]:
     parsed = {}
     category_reverse_map = {}
+    alias_reverse_map = {}
     for action in actions:
         identifier = codeblock_name_reverse_map[action["codeblockName"]]
         if identifier not in parsed:
@@ -164,12 +165,14 @@ def parse_actions(actions: list[dict], codeblock_name_reverse_map: dict[str, str
             "description": "\n".join(action["icon"]["description"]),
             "subactions": action["subActionBlocks"] if "subActionBlocks" in action else []
         }
+        for alias in action["aliases"]:
+            alias_reverse_map[alias] = action["name"]
         if identifier.endswith("event"):
             parsed[identifier][action["name"]]["cancellable"] = ("auto" if action["icon"]["cancelledAutomatically"] else action["icon"]["cancellable"]) if "cancellable" in action["icon"] else False
 
         category_reverse_map[action["name"]] = identifier
 
-    return parsed, category_reverse_map
+    return parsed, category_reverse_map, alias_reverse_map
 
 
 def parse_gv_categories(categories: list[dict]) -> tuple[dict, dict]:
@@ -269,7 +272,7 @@ def parse_potions(potions: list[dict]) -> dict:
 
 
 codeblocks, codeblock_name_reverse_map = parse_codeblocks(actiondump["codeblocks"])
-actions, action_category_reverse_map = parse_actions(actiondump["actions"], codeblock_name_reverse_map)
+actions, action_category_reverse_map, alias_reverse_map = parse_actions(actiondump["actions"], codeblock_name_reverse_map)
 gv_categories, particle_categories = parse_gv_categories(actiondump["gameValueCategories"])
 gvs, gv_category_reverse_map = parse_gvs(actiondump["gameValues"])
 particles, particle_category_reverse_map = parse_particles(actiondump["particles"])
@@ -281,6 +284,7 @@ table = {
     "codeblocks": codeblocks,
     "actions": actions,
     "actions_category_reverse_map": action_category_reverse_map,
+    "alias_reverse_map": alias_reverse_map,
     "gv_categories": gv_categories,
     "particle_categories": particle_categories,
     "gvs": gvs,
