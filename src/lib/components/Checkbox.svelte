@@ -21,15 +21,10 @@
     }
 </script>
 
-<div style="position: relative;">
-    <input
-            type="checkbox"
-            {name}
-            style="position: absolute; opacity: 0; height: 0; width: 0;"
-    />
+<div style="position: relative; width: 40px; height: 40px">
     <div
             class={checked_ ? 'checkbox checked' : 'checkbox unchecked'}
-            style="position: absolute; left: 0; top: 0"
+            style="position: absolute; left: 0; top: 0; margin: 0"
             onclick={click}
             {id}
             role="checkbox"
@@ -41,4 +36,9 @@
                 }
             }}
     >{checked ? "1" : "0"}</div>
+    <input
+            type="checkbox"
+            {name}
+            style="position: absolute; opacity: 0; height: 0; width: 0;"
+    />
 </div>

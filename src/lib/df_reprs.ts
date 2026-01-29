@@ -116,6 +116,8 @@ export const CATEGORY_COLOR_MAP = {
 
 export const SELECTION_TARGETS_COLOR_MAP = {
     AllPlayers: getColorHex("aqua"),
+    AllEntities: getColorHex("aqua"),
+    AllMobs: getColorHex("aqua"),
     Victim: getColorHex("blue"),
     Shooter: getColorHex("yellow"),
     Damager: getColorHex("red"),

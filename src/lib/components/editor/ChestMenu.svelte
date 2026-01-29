@@ -39,7 +39,9 @@
     let ttDirect = $state(false);
     let tooltipElement: HTMLElement | null = $state(null);
 
-    let actions = getContext("actiondump").actiondump.actions
+    let actions = getContext("actiondump").actiondump.actions;
+    let actionCategoryMap = getContext("actiondump").actiondump.actions_category_reverse_map;
+    let aliasActionMap = getContext("actiondump").actiondump.alias_reverse_map;
 
     function setTooltip(tt: string | null, sC: string | null, direct: boolean = false) {
         tooltip = tt;
@@ -121,7 +123,9 @@
                 Chest: {block == null || block.isBracket() ? "" : actions[block.category][block.action]?.name ?? (secondLine(block) ?? "<empty>")}
             </p>
             {#each chestItems as item, index}
-                {@const blTags = actions[block.category][block.action]?.block_tags ?? []}
+                {@const workableName = block.subAction ? Object.keys(actionCategoryMap).includes(block.subAction) ? block.subAction : aliasActionMap[block.subAction] : block.action}
+                {@const workableCategory = block.subAction ? Object.keys(actionCategoryMap).includes(block.subAction) ? actionCategoryMap[block.subAction] : actionCategoryMap[aliasActionMap[block.subAction]] : block.category}
+                {@const blTags = actions[workableCategory][workableName]?.block_tags ?? []}
                 <ChestMenuItem
                         bind:freezeInDepthView
                         deleteItemCb={() => {
@@ -136,8 +140,14 @@
                         }}
                         newItemCb={(value: Item) => {
                             if (value instanceof BlockTagItem) {
-                                value.block = block.category;
-                                value.action = block.action;
+                                let a = block.action;
+                                let c = block.category;
+                                if (block.subAction) {
+                                    a = workableName;
+                                    c = workableCategory;
+                                }
+                                value.block = c;
+                                value.action = a;
                                 let matching = blTags.find(v => v.slot === index);
                                 value.tag = matching.name;
                                 value.option = matching.default;

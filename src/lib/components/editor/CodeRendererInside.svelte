@@ -10,7 +10,7 @@
     } from "$lib/diamondfire";
     import { firstLine, secondLine, thirdLine, fourthLine, CATEGORY_MAP } from '$lib/df_reprs';
     import { setInspectorObjects } from "$lib/components/editor/Inspector.svelte";
-    import { SELECTION_TARGET_DROPDOWN } from "$lib/components/editor/Item.svelte";
+    import { ENTITY_SELECTION_TARGET_DROPDOWN, PLAYER_SELECTION_TARGET_DROPDOWN } from "$lib/components/editor/Item.svelte";
     import {T, useThrelte} from "@threlte/core";
     import { useTexture, useGltf, Text } from "@threlte/extras";
     import { interactivity } from '@threlte/extras';
@@ -23,6 +23,8 @@
     import {downloadBlob} from "$lib/utils";
 
     let allActions = getContext("actiondump").actiondump.actions;
+    let actionCategoryMap = getContext("actiondump").actiondump.actions_category_reverse_map;
+    let aliasActionMap = getContext("actiondump").actiondump.alias_reverse_map;
 
     let {
         template = $bindable(),
@@ -204,9 +206,18 @@
             block.args.splice(index, 1);
         }
 
-        for (let tag of allActions[block.category][block.action]?.block_tags ?? []) {
+        let bts = allActions[block.category][block.action]?.block_tags ?? [];
+        let a = block.action;
+        let c = block.category;
+        if (block.subAction) {
+            let trueName = block.subAction in actionCategoryMap ? block.subAction : aliasActionMap[block.subAction];
+            bts = allActions[actionCategoryMap[trueName]][trueName]?.block_tags ?? [];
+            a = trueName;
+            c = actionCategoryMap[trueName];
+        }
+        for (let tag of bts) {
             let { name, default: def, slot } = tag;
-            block.args.push(new Argument(new BlockTagItem(def, name, block.action, block.category), slot));
+            block.args.push(new Argument(new BlockTagItem(def, name, a, c), slot));
         }
     }
 
@@ -295,21 +306,38 @@
                     get: () => block.category
                 }
             ],
-            secondLine,
-            [
+            secondLine
+        ];
+        if (["if_entity", "entity_action"].includes(block.category)) {
+            iO.push([
                 {
                     label: 'Selector',
                     id: 'selector',
                     type: 'DropDown',
-                    options: [{name: "", text: ""}].concat(SELECTION_TARGET_DROPDOWN),
+                    options: [{name: "", text: ""}].concat(ENTITY_SELECTION_TARGET_DROPDOWN),
                     set: data => {
-                        template.blocks[index].target = data === "" ? null : data;
+                        template.blocks[index].target = data == "" ? null : data;
                         update();
                     },
                     get: () => block.target ?? ""
                 }
-            ]
-        ];
+            ]);
+        }
+        if (["if_player", "player_action"].includes(block.category)) {
+            iO.push([
+                {
+                    label: 'Selector',
+                    id: 'selector',
+                    type: 'DropDown',
+                    options: [{name: "", text: ""}].concat(PLAYER_SELECTION_TARGET_DROPDOWN),
+                    set: data => {
+                        template.blocks[index].target = data == "" ? null : data;
+                        update();
+                    },
+                    get: () => block.target ?? ""
+                }
+            ]);
+        }
         if (CATEGORY_ATTRIBUTES.has(block.category)) {
             iO.push([
                 {
@@ -321,6 +349,32 @@
                         update();
                     },
                     get: () => block.attribute
+                }
+            ]);
+        }
+
+        if (block.action && allActions[block.category][block.action].subactions.length) {
+            let subactions: {name: str, text: str}[] = [];
+            for (let cate of allActions[block.category][block.action].subactions) {
+                subactions.push(...Object.keys(allActions[cate]).map(k => {
+                    let act = allActions[cate][k];
+                    return {
+                        name: act.aliases?.length ? act.aliases[0] : k,
+                        text: CATEGORY_MAP[cate] + " " + act.name
+                    }
+                }));
+            }
+            iO.push([
+                {
+                    label: 'Sub-action',
+                    id: 'subaction',
+                    type: 'DropDown',
+                    options: subactions,
+                    set: data => {
+                        (template.blocks[index] as Codeblock).subAction = data;
+                        update();
+                    },
+                    get: () => block.subAction ?? ""
                 }
             ]);
         }

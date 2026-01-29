@@ -104,8 +104,31 @@ export const BLOCK_CATEGORIES = [
     'func',
     'process'
 ] as const;
-export const SELECTION_TARGETS = [
+export const ALL_SELECTION_TARGETS = [
     'AllPlayers',
+    'AllEntities',
+    'AllMobs',
+    'Victim',
+    'Shooter',
+    'Damager',
+    'Killer',
+    'Default',
+    'Selection',
+    'Projectile',
+    'LastEntity'
+] as const;
+export const PLAYER_SELECTION_TARGETS = [
+    'AllPlayers',
+    'Victim',
+    'Shooter',
+    'Damager',
+    'Killer',
+    'Default',
+    'Selection'
+] as const;
+export const ENTITY_SELECTION_TARGETS = [
+    'AllEntities',
+    'AllMobs',
     'Victim',
     'Shooter',
     'Damager',
@@ -140,7 +163,7 @@ export class Codeblock extends Block {
     id = 'block';
     category: typeof BLOCK_CATEGORIES[number];
     action: string;
-    target: typeof SELECTION_TARGETS[number] | null;
+    target: typeof ALL_SELECTION_TARGETS[number] | null;
     attribute: boolean;
     subAction: string | null;
     data: string | null;
@@ -149,7 +172,7 @@ export class Codeblock extends Block {
     constructor(category: typeof BLOCK_CATEGORIES[number],
                 action: string,
                 args: Argument[],
-                target: typeof SELECTION_TARGETS[number] | null = null,
+                target: typeof ALL_SELECTION_TARGETS[number] | null = null,
                 attribute: boolean = false,
                 subAction: string | null = null,
                 data: string | null = null

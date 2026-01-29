@@ -1,6 +1,8 @@
 <script module lang="ts">
-    import { SELECTION_TARGETS } from "$lib/diamondfire";
-    export const SELECTION_TARGET_DROPDOWN = SELECTION_TARGETS.map(s => { return { text: s, name: s } });
+    import { ALL_SELECTION_TARGETS, PLAYER_SELECTION_TARGETS, ENTITY_SELECTION_TARGETS } from "$lib/diamondfire";
+    export const ALL_SELECTION_TARGET_DROPDOWN = ALL_SELECTION_TARGETS.map(s => { return { text: s, name: s } });
+    export const PLAYER_SELECTION_TARGET_DROPDOWN = PLAYER_SELECTION_TARGETS.map(s => { return { text: s, name: s } });
+    export const ENTITY_SELECTION_TARGET_DROPDOWN = ENTITY_SELECTION_TARGETS.map(s => { return { text: s, name: s } });
 </script>
 
 <script lang="ts">
@@ -203,7 +205,7 @@
                     label: "Selection",
                     id: "selection",
                     type: "DropDown",
-                    options: SELECTION_TARGET_DROPDOWN,
+                    options: ALL_SELECTION_TARGET_DROPDOWN,
                     set: (selection) => {
                         item.target = selection;
                         set(item);
