@@ -148,7 +148,7 @@ def parse_actions(actions: list[dict], codeblock_name_reverse_map: dict[str, str
         parsed[identifier][action["name"]] = {
             "material": action["icon"]["material"].lower(),
             "name": action["icon"]["name"] or action["name"],
-            "aliases": action["icon"]["aliases"] if "aliases" in action["icon"] else [],
+            "aliases": action["aliases"] if "aliases" in action else [],
             "deprecated": check_deprecation(action["name"], action["icon"]["name"], actions),
             "requires": {
                 "tokens": action["icon"]["requireTokens"],

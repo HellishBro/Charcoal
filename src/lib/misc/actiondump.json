@@ -604,7 +604,9 @@
             "BlockEquals": {
                 "material": "bricks",
                 "name": "Block Equals",
-                "aliases": [],
+                "aliases": [
+                    "GBlockEquals"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -969,7 +971,9 @@
             "IsGrounded": {
                 "material": "oak_trapdoor",
                 "name": "Is Grounded",
-                "aliases": [],
+                "aliases": [
+                    "EIsGrounded"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -1234,7 +1238,9 @@
             "IsHitboxNear": {
                 "material": "friend_pottery_sherd",
                 "name": "Is Hitbox Near Location",
-                "aliases": [],
+                "aliases": [
+                    "EHitboxIsNear"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -1294,7 +1300,9 @@
             "IsNear": {
                 "material": "compass",
                 "name": "Is Near Location",
-                "aliases": [],
+                "aliases": [
+                    "EIsNear"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -1455,7 +1463,9 @@
             "StandingOn": {
                 "material": "stone",
                 "name": "StandingOn",
-                "aliases": [],
+                "aliases": [
+                    "EStandingOn"
+                ],
                 "deprecated": true,
                 "requires": {
                     "tokens": false,
@@ -1474,7 +1484,9 @@
             "NameEquals": {
                 "material": "name_tag",
                 "name": "Name Equals",
-                "aliases": [],
+                "aliases": [
+                    "ENameEquals"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -1527,7 +1539,9 @@
             " StandingOn ": {
                 "material": "gold_ore",
                 "name": "Is Standing on Block",
-                "aliases": [],
+                "aliases": [
+                    " EStandingOn "
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -1628,7 +1642,9 @@
             "String": {
                 "material": "string",
                 "name": "Set to String",
-                "aliases": [],
+                "aliases": [
+                    "Text"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -1923,7 +1939,9 @@
             "ShiftAllAxes": {
                 "material": "piston",
                 "name": "Shift Location on All Axes",
-                "aliases": [],
+                "aliases": [
+                    "ShiftLocCoord"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -2709,7 +2727,9 @@
             "ShiftOnVector": {
                 "material": "prismarine_bricks",
                 "name": "Shift Location on Vector",
-                "aliases": [],
+                "aliases": [
+                    "AddVectorLoc"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -3116,7 +3136,9 @@
             "ShiftRotation": {
                 "material": "heart_of_the_sea",
                 "name": "Shift Location Rotation",
-                "aliases": [],
+                "aliases": [
+                    "RotateLocation"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -3640,7 +3662,9 @@
             "ShiftOnAxis": {
                 "material": "piston",
                 "name": "Shift Location on Axis",
-                "aliases": [],
+                "aliases": [
+                    "ShiftAxis"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -4199,7 +4223,9 @@
             "GetCenterLoc": {
                 "material": "glass_pane",
                 "name": "Set to Center Location",
-                "aliases": [],
+                "aliases": [
+                    "FindCenter"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -6121,7 +6147,10 @@
             "MinNumber": {
                 "material": "polished_blackstone_pressure_plate",
                 "name": "Set to Minimum Number",
-                "aliases": [],
+                "aliases": [
+                    "MinValue",
+                    "Min"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -6372,7 +6401,10 @@
             "RepeatString": {
                 "material": "repeating_command_block",
                 "name": "Repeat String",
-                "aliases": [],
+                "aliases": [
+                    "DuplicateText",
+                    "RepeatText"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -6437,7 +6469,9 @@
             "JoinString": {
                 "material": "sticky_piston",
                 "name": "Join String",
-                "aliases": [],
+                "aliases": [
+                    "JoinText"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -6973,7 +7007,9 @@
             "SplitString": {
                 "material": "acacia_fence",
                 "name": "Split String",
-                "aliases": [],
+                "aliases": [
+                    "SplitText"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -8743,7 +8779,9 @@
             "TrimString": {
                 "material": "shears",
                 "name": "Trim String",
-                "aliases": [],
+                "aliases": [
+                    "TrimText"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -9258,7 +9296,9 @@
             "JsonToValue": {
                 "material": "snowball",
                 "name": "Convert JSON to Value",
-                "aliases": [],
+                "aliases": [
+                    "JsonFromValue"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -9432,7 +9472,9 @@
             "ReplaceString": {
                 "material": "lead",
                 "name": "Replace String",
-                "aliases": [],
+                "aliases": [
+                    "ReplaceText"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -10662,7 +10704,9 @@
             "Root": {
                 "material": "prismarine_shard",
                 "name": "Set to Root",
-                "aliases": [],
+                "aliases": [
+                    "SquareRoot"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -11212,7 +11256,9 @@
             "RemoveString": {
                 "material": "tripwire_hook",
                 "name": "Remove String",
-                "aliases": [],
+                "aliases": [
+                    "RemoveText"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -11379,7 +11425,10 @@
             "MaxNumber": {
                 "material": "polished_blackstone",
                 "name": "Set to Maximum Number",
-                "aliases": [],
+                "aliases": [
+                    "MaxValue",
+                    "Max"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -12718,7 +12767,9 @@
             "RandomValue": {
                 "material": "player_head",
                 "name": "Set to Random Value",
-                "aliases": [],
+                "aliases": [
+                    "RandomObj"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -13362,7 +13413,9 @@
             "SetDirection": {
                 "material": "stone",
                 "name": "SetDirection",
-                "aliases": [],
+                "aliases": [
+                    "FaceDirection"
+                ],
                 "deprecated": true,
                 "requires": {
                     "tokens": false,
@@ -13397,7 +13450,9 @@
             "HSBColor": {
                 "material": "orange_tulip",
                 "name": "Set to HSB Color",
-                "aliases": [],
+                "aliases": [
+                    "HSVColor"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -13747,7 +13802,9 @@
             "InsertListValue": {
                 "material": "hopper",
                 "name": "Insert List Value",
-                "aliases": [],
+                "aliases": [
+                    "InsertListIndex"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -14276,7 +14333,9 @@
             "SetHeadTexture": {
                 "material": "stone",
                 "name": "SetHeadTexture",
-                "aliases": [],
+                "aliases": [
+                    "SetHeadOwner"
+                ],
                 "deprecated": true,
                 "requires": {
                     "tokens": false,
@@ -14553,7 +14612,9 @@
             "SetItemColor": {
                 "material": "yellow_dye",
                 "name": "Set Item Color",
-                "aliases": [],
+                "aliases": [
+                    "SetLeatherColor"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -15267,7 +15328,9 @@
             "StringLength": {
                 "material": "bookshelf",
                 "name": "Get String Length",
-                "aliases": [],
+                "aliases": [
+                    "TextLength"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -15867,7 +15930,10 @@
             "ShiftToward": {
                 "material": "target",
                 "name": "Shift Location Toward Location",
-                "aliases": [],
+                "aliases": [
+                    "ShiftTowards",
+                    "ShiftLocTowards"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -16978,7 +17044,9 @@
             "GetConsumable": {
                 "material": "cooked_beef",
                 "name": "Get Consumable Property",
-                "aliases": [],
+                "aliases": [
+                    "GetItemFood"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -17238,7 +17306,9 @@
             "HiddenComponents": {
                 "material": "tinted_glass",
                 "name": "Set Item Hidden Components",
-                "aliases": [],
+                "aliases": [
+                    "HideComponents"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -21424,7 +21494,9 @@
             "SetArmor": {
                 "material": "iron_leggings",
                 "name": "Set Armor Items",
-                "aliases": [],
+                "aliases": [
+                    " SetArmor "
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -22450,7 +22522,9 @@
             "RemovePotion": {
                 "material": "glass_bottle",
                 "name": "Remove Potion Effect",
-                "aliases": [],
+                "aliases": [
+                    "RemoveEffect"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -22731,7 +22805,9 @@
             "SetAngry": {
                 "material": "player_head",
                 "name": "Set Angry",
-                "aliases": [],
+                "aliases": [
+                    "SetAngerTicks"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -24227,7 +24303,9 @@
             "ClearPotions": {
                 "material": "cauldron",
                 "name": "Clear Potion Effects",
-                "aliases": [],
+                "aliases": [
+                    "ClearEffects"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -25957,7 +26035,9 @@
             "GivePotion": {
                 "material": "dragon_breath",
                 "name": "Give Potion Effect",
-                "aliases": [],
+                "aliases": [
+                    "GiveEffect"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -26322,7 +26402,9 @@
             "ArmorStandPose": {
                 "material": "armor_stand",
                 "name": "Set Armor Stand Pose",
-                "aliases": [],
+                "aliases": [
+                    "SetPose"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -26861,7 +26943,9 @@
             "Explode": {
                 "material": "tnt",
                 "name": "Explode",
-                "aliases": [],
+                "aliases": [
+                    "ExplodeCreeper"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -28055,7 +28139,9 @@
             "ClickInvSlot": {
                 "material": "light_gray_shulker_box",
                 "name": "Player Click Inventory Slot Event",
-                "aliases": [],
+                "aliases": [
+                    "ClickOwnInv"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -28337,7 +28423,9 @@
             "PickUpItem": {
                 "material": "glowstone_dust",
                 "name": "Player Pick Up Item Event",
-                "aliases": [],
+                "aliases": [
+                    "PickupItem"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -28399,7 +28487,9 @@
             "Leave": {
                 "material": "poisonous_potato",
                 "name": "Player Leave Game Event",
-                "aliases": [],
+                "aliases": [
+                    "Quit"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -28641,7 +28731,9 @@
             "Fish": {
                 "material": "fishing_rod",
                 "name": "Player Fish Event",
-                "aliases": [],
+                "aliases": [
+                    "FishEvent"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -28783,7 +28875,9 @@
             "ClickMenuSlot": {
                 "material": "crafting_table",
                 "name": "Player Click Menu Slot Event",
-                "aliases": [],
+                "aliases": [
+                    "ClickItem"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -29492,7 +29586,9 @@
             "HasRoomForItem": {
                 "material": "flower_pot",
                 "name": "Has Room For Item",
-                "aliases": [],
+                "aliases": [
+                    "PHasRoomForItem"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -29730,7 +29826,9 @@
             "IsWearing": {
                 "material": "iron_chestplate",
                 "name": "Is Wearing Item",
-                "aliases": [],
+                "aliases": [
+                    "PIsWearing"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -29773,7 +29871,9 @@
             "IsNear": {
                 "material": "compass",
                 "name": "Is Near Location",
-                "aliases": [],
+                "aliases": [
+                    "PIsNear"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -30204,7 +30304,9 @@
             "MovementKey": {
                 "material": "hopper_minecart",
                 "name": "Is Movement Key Pressed",
-                "aliases": [],
+                "aliases": [
+                    "PMovementKey"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -30810,7 +30912,9 @@
             "StandingOn": {
                 "material": "stone",
                 "name": "StandingOn",
-                "aliases": [],
+                "aliases": [
+                    "PStandingOn"
+                ],
                 "deprecated": true,
                 "requires": {
                     "tokens": false,
@@ -30829,7 +30933,9 @@
             " StandingOn ": {
                 "material": "heavy_weighted_pressure_plate",
                 "name": "Is Standing on Block",
-                "aliases": [],
+                "aliases": [
+                    " PStandingOn "
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -30999,7 +31105,9 @@
             "IsHitboxNear": {
                 "material": "friend_pottery_sherd",
                 "name": "Is Hitbox Near Location",
-                "aliases": [],
+                "aliases": [
+                    "PHitboxIsNear"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -31059,7 +31167,9 @@
             "HasPotion": {
                 "material": "dragon_breath",
                 "name": "Has Potion Effect",
-                "aliases": [],
+                "aliases": [
+                    "HasEffect"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -31125,7 +31235,9 @@
             "NameEquals": {
                 "material": "name_tag",
                 "name": "Name Equals",
-                "aliases": [],
+                "aliases": [
+                    "PNameEquals"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -32117,7 +32229,9 @@
             "Multiple": {
                 "material": "redstone",
                 "name": "Repeat Multiple Times",
-                "aliases": [],
+                "aliases": [
+                    "N Times"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -32216,7 +32330,9 @@
             "While": {
                 "material": "iron_ingot",
                 "name": "Repeat While",
-                "aliases": [],
+                "aliases": [
+                    "WhileCond"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -32752,7 +32868,9 @@
             "ListSizeEquals": {
                 "material": "chiseled_bookshelf",
                 "name": "List Size Equals",
-                "aliases": [],
+                "aliases": [
+                    "ListIsEmpty"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -32788,7 +32906,9 @@
             "StringMatches": {
                 "material": "book",
                 "name": "String Matches",
-                "aliases": [],
+                "aliases": [
+                    " TextMatches "
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -33126,7 +33246,9 @@
             "TextMatches": {
                 "material": "stone",
                 "name": "TextMatches",
-                "aliases": [],
+                "aliases": [
+                    "EqIgnoreCase"
+                ],
                 "deprecated": true,
                 "requires": {
                     "tokens": false,
@@ -33176,7 +33298,9 @@
             "IsNear": {
                 "material": "stone",
                 "name": "IsNear",
-                "aliases": [],
+                "aliases": [
+                    "VIsNear"
+                ],
                 "deprecated": true,
                 "requires": {
                     "tokens": false,
@@ -33255,7 +33379,9 @@
             "ValueIsEmpty": {
                 "material": "bucket",
                 "name": "Value Is Empty",
-                "aliases": [],
+                "aliases": [
+                    "VarIsEmpty"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -33445,7 +33571,9 @@
             "ItemEquals": {
                 "material": "item_frame",
                 "name": "Item Equals",
-                "aliases": [],
+                "aliases": [
+                    "VItemEquals"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -33803,7 +33931,9 @@
             "=": {
                 "material": "iron_ingot",
                 "name": "Value =",
-                "aliases": [],
+                "aliases": [
+                    " = "
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -34149,7 +34279,9 @@
             "FilterRandom": {
                 "material": "player_head",
                 "name": "Filter Selection Randomly",
-                "aliases": [],
+                "aliases": [
+                    "RandomSelected"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -34441,7 +34573,9 @@
             "Reset": {
                 "material": "glass",
                 "name": "Reset Selection",
-                "aliases": [],
+                "aliases": [
+                    "None"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -34634,7 +34768,9 @@
             "FilterCondition": {
                 "material": "chain_command_block",
                 "name": "Filter Selection by Condition",
-                "aliases": [],
+                "aliases": [
+                    "FilterSelect"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -34936,7 +35072,9 @@
             "ParticleSphere": {
                 "material": "stone",
                 "name": "ParticleSphere",
-                "aliases": [],
+                "aliases": [
+                    "PFX Sphere"
+                ],
                 "deprecated": true,
                 "requires": {
                     "tokens": false,
@@ -35290,7 +35428,9 @@
             "ParticleSpiral": {
                 "material": "stone",
                 "name": "ParticleSpiral",
-                "aliases": [],
+                "aliases": [
+                    "PFX Spiral"
+                ],
                 "deprecated": true,
                 "requires": {
                     "tokens": false,
@@ -35925,7 +36065,9 @@
             "CloneRegion": {
                 "material": "netherite_scrap",
                 "name": "Clone Region",
-                "aliases": [],
+                "aliases": [
+                    "CopyBlocks"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -36293,7 +36435,9 @@
             "ParticleEffect": {
                 "material": "stone",
                 "name": "ParticleEffect",
-                "aliases": [],
+                "aliases": [
+                    "Particle FX"
+                ],
                 "deprecated": true,
                 "requires": {
                     "tokens": false,
@@ -36523,7 +36667,9 @@
             "ParticleCircle": {
                 "material": "stone",
                 "name": "ParticleCircle",
-                "aliases": [],
+                "aliases": [
+                    "PFX Circle"
+                ],
                 "deprecated": true,
                 "requires": {
                     "tokens": false,
@@ -37891,7 +38037,9 @@
             "SetRegion": {
                 "material": "oak_wood",
                 "name": "Set Region",
-                "aliases": [],
+                "aliases": [
+                    "SetBlock"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -37944,7 +38092,9 @@
             "ParticleCircleA": {
                 "material": "stone",
                 "name": "ParticleCircleA",
-                "aliases": [],
+                "aliases": [
+                    "PFX Circle [A]"
+                ],
                 "deprecated": true,
                 "requires": {
                     "tokens": false,
@@ -38210,7 +38360,9 @@
             "ParticleRay": {
                 "material": "stone",
                 "name": "ParticleRay",
-                "aliases": [],
+                "aliases": [
+                    "PFX Ray"
+                ],
                 "deprecated": true,
                 "requires": {
                     "tokens": false,
@@ -38657,7 +38809,9 @@
             "ParticleSpiralA": {
                 "material": "stone",
                 "name": "ParticleSpiralA",
-                "aliases": [],
+                "aliases": [
+                    "PFX Spiral [A]"
+                ],
                 "deprecated": true,
                 "requires": {
                     "tokens": false,
@@ -38695,7 +38849,10 @@
             "ParticleCluster": {
                 "material": "stone",
                 "name": "ParticleCluster",
-                "aliases": [],
+                "aliases": [
+                    "PFX Cluster",
+                    "L PFX Cluster"
+                ],
                 "deprecated": true,
                 "requires": {
                     "tokens": false,
@@ -38733,7 +38890,9 @@
             "ParticleLine": {
                 "material": "stone",
                 "name": "ParticleLine",
-                "aliases": [],
+                "aliases": [
+                    "PFX Line"
+                ],
                 "deprecated": true,
                 "requires": {
                     "tokens": false,
@@ -38925,7 +39084,9 @@
             "BossBar": {
                 "material": "stone",
                 "name": "BossBar",
-                "aliases": [],
+                "aliases": [
+                    "SetBossBar"
+                ],
                 "deprecated": true,
                 "requires": {
                     "tokens": false,
@@ -39736,7 +39897,9 @@
             "ChatStyle": {
                 "material": "cyan_dye",
                 "name": "Set Chat Style",
-                "aliases": [],
+                "aliases": [
+                    "ChatColor"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -39979,7 +40142,9 @@
             "SurvivalMode": {
                 "material": "iron_sword",
                 "name": "Set to Survival Mode",
-                "aliases": [],
+                "aliases": [
+                    "GmSurvival"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -42153,7 +42318,9 @@
             "RemoveBossBar": {
                 "material": "stone",
                 "name": "RemoveBossBar",
-                "aliases": [],
+                "aliases": [
+                    "ClearBars"
+                ],
                 "deprecated": true,
                 "requires": {
                     "tokens": false,
@@ -42362,7 +42529,9 @@
             "RemovePotion": {
                 "material": "glass_bottle",
                 "name": "Remove Potion Effect",
-                "aliases": [],
+                "aliases": [
+                    "RemoveEffect"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -42754,7 +42923,9 @@
             "SendMessageSeq": {
                 "material": "bookshelf",
                 "name": "Send Message Sequence",
-                "aliases": [],
+                "aliases": [
+                    "SendDialogue"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": true,
@@ -44003,7 +44174,9 @@
             "AdventureMode": {
                 "material": "map",
                 "name": "Set to Adventure Mode",
-                "aliases": [],
+                "aliases": [
+                    "GmAdventure"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -44094,7 +44267,9 @@
             "ClearPotions": {
                 "material": "cauldron",
                 "name": "Clear Potion Effects",
-                "aliases": [],
+                "aliases": [
+                    "ClearEffects"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -45405,7 +45580,9 @@
             "ReplaceItems": {
                 "material": "lever",
                 "name": "Replace Items",
-                "aliases": [],
+                "aliases": [
+                    "ReplaceItem"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -46143,7 +46320,9 @@
             "GivePotion": {
                 "material": "dragon_breath",
                 "name": "Give Potion Effect",
-                "aliases": [],
+                "aliases": [
+                    "GiveEffect"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": false,
@@ -46897,7 +47076,9 @@
             "SendTitle": {
                 "material": "birch_sign",
                 "name": "Show Title Text",
-                "aliases": [],
+                "aliases": [
+                    "Title"
+                ],
                 "deprecated": null,
                 "requires": {
                     "tokens": true,
@@ -68186,5 +68367,5 @@
             "description": "Deals 1 damage every\n2 \u00f7 level seconds (and\ncan kill)"
         }
     },
-    "time": 1769664368.7207837
+    "time": 1769667137.1909132
 }
