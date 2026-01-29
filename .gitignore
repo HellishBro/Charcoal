@@ -1,4 +1,4 @@
-tools/parse_actiondump_from_log.py
+tools/parse_actiondump_from_log.*
 
 # Logs
 logs
