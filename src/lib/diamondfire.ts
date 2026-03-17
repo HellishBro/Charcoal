@@ -247,6 +247,7 @@ export const ITEM_TYPES: string[] = [
     'comp',
     'num',
     'var',
+    'bucket_var',
     'pn_el',
     'loc',
     'vec',
@@ -280,6 +281,7 @@ export const VALUE_TYPES: string[] = [
     'comp',
     'num',
     'var',
+    'bucket_var',
     'loc',
     'vec',
     'pot',
@@ -303,7 +305,8 @@ export function itemFromType(type: typeof ITEM_TYPES[number]): unknown | undefin
         part: ParticleItem,
         item: MinecraftItem,
         bl_tag: BlockTagItem,
-        hint: HintItem
+        hint: HintItem,
+        bucket_var: BucketVarItem
     }[type];
 }
 
@@ -325,7 +328,8 @@ export function itemDefaultValue(type: typeof ITEM_TYPES[number]): Item | undefi
             count: new TagByte(1)
         }))),
         bl_tag: new BlockTagItem("", "", "", "event"),
-        hint: new HintItem("")
+        hint: new HintItem(""),
+        bucket_var: new BucketVarItem("", "", "")
     }[type];
 }
 
@@ -384,7 +388,7 @@ export class StringItem extends Item {
         this._data = {name: this.name};
     }
 
-    static fromJSON(json: Json): NumberItem {
+    static fromJSON(json: Json): StringItem {
         return new StringItem(json.name);
     }
 }
@@ -402,7 +406,7 @@ export class TextItem extends Item {
         this._data = {name: this.name};
     }
 
-    static fromJSON(json: Json): NumberItem {
+    static fromJSON(json: Json): TextItem {
         return new TextItem(json.name);
     }
 }
@@ -422,7 +426,7 @@ export class VariableItem extends Item {
         this._data = {name: this.name, scope: this.scope};
     }
 
-    static fromJSON(json: Json): NumberItem {
+    static fromJSON(json: Json): VariableItem {
         return new VariableItem(json.name, json.scope);
     }
 }
@@ -459,7 +463,7 @@ export class ParameterItem extends Item {
         this._data = {name: this.name, type: this.type, plural: this.plural, optional: this.optional, note: this.note, description: this.description, default_value: this.defaultValue};
     }
 
-    static fromJSON(json: Json): NumberItem {
+    static fromJSON(json: Json): ParameterItem {
         return new ParameterItem(
             json.name,
             json.type,
@@ -773,5 +777,27 @@ export class HintItem extends Item {
 
     static fromJSON(json: Json): HintItem {
         return new HintItem(json.id);
+    }
+}
+
+export class BucketVarItem extends Item {
+    id = 'bucket_var';
+    name: string;
+    key: string;
+    namespaceAlias: string;
+
+    constructor(name: string, key: string, namespaceAlias: string) {
+        super();
+        this.name = name;
+        this.key = key;
+        this.namespaceAlias = namespaceAlias;
+    }
+
+    package() {
+        this._data = {name: this.name, key: this.key, namespace_alias: this.namespaceAlias};
+    }
+
+    static fromJSON(json: Json): BucketVarItem {
+        return new BucketVarItem(json.name, json.key, json.namespace_alias);
     }
 }

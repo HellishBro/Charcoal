@@ -70,7 +70,8 @@ export const TYPE_DISPLAY_MAP: { [key: typeof TYPE_TYPES[number] | 'g_val']: str
     hint: 'Hint',
     any: 'Any Value',
     list: 'List',
-    dict: 'Dictionary'
+    dict: 'Dictionary',
+    bucket_var: 'Bucket Variable'
 } as const;
 
 export const TYPE_DISPLAY_COLORS_MAP: { [key: typeof TYPE_TYPES[number] | 'g_val']: string } = {
@@ -89,7 +90,8 @@ export const TYPE_DISPLAY_COLORS_MAP: { [key: typeof TYPE_TYPES[number] | 'g_val
     bl_tag: getColorHex('gold'),
     any: '#ffd47f',
     list: getColorHex('dark_green'),
-    dict: '#55AAff'
+    dict: '#55AAff',
+    bucket_var: '#D4AAFF'
 } as const;
 
 export const CATEGORY_COLOR_MAP = {

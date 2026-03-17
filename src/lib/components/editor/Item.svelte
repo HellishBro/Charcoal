@@ -21,7 +21,7 @@
         MinecraftItem,
         PotionItem,
         ParameterItem,
-        TYPE_TYPES
+        TYPE_TYPES, BucketVarItem
     } from "$lib/diamondfire";
     import { fetchTranslations, translations } from "$lib/minimessage";
     import {SELECTION_TARGETS_COLOR_MAP, TYPE_DISPLAY_COLORS_MAP, TYPE_DISPLAY_MAP} from "$lib/df_reprs";
@@ -982,6 +982,46 @@
                 ]);
             }
             setInspectorObjects(iO);
+        } else if (item instanceof BucketVarItem) {
+            setTooltip(`${escapeHtml(item.name)}<br>BUCKET<br><gray>Key: </gray>${escapeHtml(item.key)}<br><gray>Namespace: </gray>${escapeHtml(item.namespaceAlias)}`, TYPE_DISPLAY_COLORS_MAP.bucket_var);
+            setInspectorObjects([
+                [
+                    {
+                        label: "Bucket variable name",
+                        id: "variable_name",
+                        type: "StringField",
+                        set: (data) => {
+                            item.name = data;
+                            set(item);
+                        },
+                        get: () => item.name,
+                    }
+                ],
+                [
+                    {
+                        label: "Bucket variable key",
+                        id: "variable_key",
+                        type: "StringField",
+                        set: (data) => {
+                            item.key = data;
+                            set(item);
+                        },
+                        get: () => item.key
+                    }
+                ],
+                [
+                    {
+                        label: "Bucket variable namespace",
+                        id: "variable_namespace",
+                        type: "StringField",
+                        set: (data) => {
+                            item.namespaceAlias = data;
+                            set(item);
+                        },
+                        get: () => item.namespaceAlias
+                    }
+                ]
+            ]);
         } else {
             setTooltip(escapeHtml(JSON.stringify(item.toJSON(), null, 4)));
         }
