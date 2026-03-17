@@ -97,6 +97,31 @@ TYPE_ID_MAP = {
     "RANDOM_GENERATOR": "random_generator" # new data type on node Beta. Formed using set_var.RandomGenerator
 }
 
+def split_alternative(d: list[dict]) -> list[dict]:
+    parts = []
+    current_part = []
+    alt = False
+    for line in (d + ([{"$separator": None}] if d and "$separator" not in d[-1] else [])):
+        if "$separator" not in line and "$alternative" not in line:
+            current_part.append(line)
+        if "$separator" in line:
+            if alt:
+                parts[-1]["alternative"].append(current_part)
+                alt = False
+            else:
+                parts.append({
+                    "section": current_part
+                })
+            current_part = []
+        if "$alternative" in line:
+            parts.append({
+                "alternative": [current_part]
+            })
+            current_part = []
+            alt = True
+
+    return parts
+
 
 def parse_arguments(args_list: list[dict]) -> list[dict]:
     parsed = []
@@ -119,7 +144,7 @@ def parse_arguments(args_list: list[dict]) -> list[dict]:
                 "notes": parse_additional_information(arg["notes"])
             })
 
-    return parsed
+    return split_alternative(parsed)
 
 
 def parse_returns(returns: list[dict]) -> list[dict]:
@@ -135,7 +160,7 @@ def parse_returns(returns: list[dict]) -> list[dict]:
                 "description": "\n".join(ret["description"])
             })
 
-    return parsed
+    return split_alternative(parsed)
 
 
 def parse_actions(actions: list[dict], codeblock_name_reverse_map: dict[str, str]) -> tuple[dict, dict, dict]:
