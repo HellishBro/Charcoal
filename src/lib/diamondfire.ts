@@ -794,7 +794,7 @@ export class BucketVarItem extends Item {
     }
 
     package() {
-        this._data = {name: this.name, key: this.key, namespace_alias: this.namespaceAlias};
+        this._data = {name: this.name, key: this.key, namespace_alias: this.namespaceAlias, namespace_type: this.namespaceAlias == "" ? "DEFAULT" : "ALIAS"};
     }
 
     static fromJSON(json: Json): BucketVarItem {

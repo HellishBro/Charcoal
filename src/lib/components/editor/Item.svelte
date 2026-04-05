@@ -983,7 +983,12 @@
             }
             setInspectorObjects(iO);
         } else if (item instanceof BucketVarItem) {
-            setTooltip(`${escapeHtml(item.name)}<br>BUCKET<br><gray>Key: </gray>${escapeHtml(item.key)}<br><gray>Namespace: </gray>${escapeHtml(item.namespaceAlias)}`, TYPE_DISPLAY_COLORS_MAP.bucket_var);
+            let nsAlias = `<${TYPE_DISPLAY_COLORS_MAP.bucket_var}>Default</${TYPE_DISPLAY_COLORS_MAP.bucket_var}>`;
+            if (item.namespaceAlias != "") {
+                nsAlias = `<aqua>"${escapeHtml(item.namespaceAlias)}"</aqua>`;
+            }
+
+            setTooltip(`${escapeHtml(item.name)}<br><gray>Key: </gray><aqua>"${escapeHtml(item.key)}"</aqua><br><gray>Namespace Alias: </gray>${nsAlias}`, TYPE_DISPLAY_COLORS_MAP.bucket_var);
             setInspectorObjects([
                 [
                     {
@@ -1011,8 +1016,9 @@
                 ],
                 [
                     {
-                        label: "Bucket variable namespace",
+                        label: "Bucket variable namespace alias",
                         id: "variable_namespace",
+                        placeholder: "Default",
                         type: "StringField",
                         set: (data) => {
                             item.namespaceAlias = data;
