@@ -5,6 +5,7 @@
     import MiniMessageRenderer from "$lib/components/MiniMessageRenderer.svelte";
     import { fastRender } from "$lib/minimessage";
     import DropDown from "$lib/components/DropDown.svelte";
+    import { getContext } from "svelte";
     import type { InspectorObject } from "$lib/components/editor/editor-state";
 
     let {
@@ -26,6 +27,7 @@
     } = $props();
 
     let inDepthElement: HTMLDivElement | null = $state(null);
+    let isMobile: boolean = $derived(getContext("editorMobile").isMobile);
 
     function getPlaceholder(inspectorObject: InspectorObject) {
         if (inspectorObject.placeholder) return inspectorObject.placeholder;
@@ -65,15 +67,15 @@
         oncreate={ref => inDepthElement = ref}
         style="display: flex; flex-direction: column; position: relative; cursor: auto; overflow-y: auto; min-height: 0; min-width: 0;"
 >
-    <div>
+    <div style="display: flex; justify-content: space-between; align-items: {isMobile ? 'flex-start' : 'center'}; flex-wrap: wrap; gap: 10px;">
         <span style="font-size: 20px; display: inline">Inspector</span>
         {#if freezeInDepthView}
-            <span style="position: absolute; top: 25px; right: 20px; font-size: 13px; display: inline;">Click elsewhere to unfocus.</span>
+            <span style="font-size: 13px; display: inline; text-align: right;">Click elsewhere to unfocus.</span>
         {:else}
-            <span style="position: absolute; top: 25px; right: 20px; font-size: 13px; display: inline;">Click an item to focus inspector.</span>
+            <span style="font-size: 13px; display: inline; text-align: right;">Click an item to focus inspector.</span>
         {/if}
         {#if inspectorObjects !== null}
-            <div style="margin-top: 10px; font-size: 20px">{@html fastRender(inspectingTitle)}</div>
+            <div style="margin-top: 10px; font-size: 20px; width: 100%;">{@html fastRender(inspectingTitle)}</div>
         {/if}
     </div>
     <form onsubmit={e => e.preventDefault()} style="display: flex; gap: 10px; flex-direction: column; margin-top: 25px;">
