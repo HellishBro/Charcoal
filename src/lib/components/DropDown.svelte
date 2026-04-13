@@ -21,11 +21,10 @@
     let containerElement: HTMLDivElement | null = $state(null);
 
     function clickOutside(event: MouseEvent) {
-        // Solo cerrar si el click fue realmente fuera del contenedor
         const target = event.target as Node;
         if (containerElement && !containerElement.contains(target)) {
             optionsVisible = false;
-            // Reset to selected value if no selection was made
+
             if (selectedOption) {
                 value = selectedOption.text;
             }
@@ -43,10 +42,8 @@
     let selectedOption = $derived(options?.find(o => o?.selected));
     let value = $state("");
 
-    // Sincronizar value cuando selectedOption cambia (para evitar el warning de Svelte)
     $effect(() => {
         if (!optionsVisible) {
-            // Solo actualizar si la dropdown no está visible (es decir, el usuario no está filtrando)
             value = selectedOption?.text ?? "";
         }
     });
