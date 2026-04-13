@@ -1,9 +1,14 @@
-import type { EditorSessionState } from "$lib/components/editor/editor-state";
+import type { EditorSessionState } from "./editor-state";
+import { getTemplateData } from "../../templatedata";
+import { firstLine, secondLine } from "../../df_reprs";
+import { Codeblock } from "../../diamondfire";
 
 export type EditorTab = {
     id: string;
     name: string;
-    template: string;
+    icon: string | null;
+    showOnlyIcon: boolean;
+    template: string; // JSON format
     editorState: EditorSessionState | null;
 };
 
@@ -13,16 +18,60 @@ export type TabsState = {
 };
 
 let tabCounter = 0;
+const TAB_DEFAULT_NAME = "New Tab";
 
 function generateTabId(): string {
     return `tab-${Date.now()}-${tabCounter++}`;
 }
 
-export function createDefaultTab(template: string = ""): EditorTab {
+function parseTemplate(template: string) {
+    const result = getTemplateData(template);
+    return result.status === "success" ? result.templateObject : null;
+}
+
+function getTabName(templateJSON: string): string {
+    const templateObject = parseTemplate(templateJSON);
+    if (!templateObject || !templateObject.blocks.length) {
+        return TAB_DEFAULT_NAME;
+    }
+
+    const firstBlock = templateObject.blocks[0];
+    if (!(firstBlock instanceof Codeblock)) {
+        return TAB_DEFAULT_NAME;
+    }
+
+    const action = secondLine(firstBlock);
+    if (action && action.trim().length > 0) {
+        return action;
+    }
+
+    // If there's a block but no action, return empty string (will show only icon)
+    return "";
+}
+
+function getTabIcon(templateJSON: string): string | null {
+    const templateObject = parseTemplate(templateJSON);
+    if (!templateObject || !templateObject.blocks.length) {
+        return null;
+    }
+
+    const firstBlock = templateObject.blocks[0];
+    if (!(firstBlock instanceof Codeblock)) {
+        return null;
+    }
+
+    return `/textures/${firstBlock.category}.png`;
+}
+
+export function createDefaultTab(templateJSON: string = ""): EditorTab {
+    const name = getTabName(templateJSON);
+    const icon = getTabIcon(templateJSON);
     return {
         id: generateTabId(),
-        name: `Template ${tabCounter}`,
-        template,
+        name,
+        icon,
+        showOnlyIcon: name === "" && icon !== null,
+        template: templateJSON,
         editorState: null
     };
 }
@@ -79,11 +128,20 @@ export function switchTab(state: TabsState, tabId: string): TabsState {
 }
 
 export function updateTabState(state: TabsState, tabId: string, editorState: EditorSessionState, template: string): TabsState {
+    const name = getTabName(template);
+    const icon = getTabIcon(template);
     return {
         ...state,
         tabs: state.tabs.map(tab =>
             tab.id === tabId
-                ? { ...tab, editorState, template }
+                ? {
+                    ...tab,
+                    editorState,
+                    template,
+                    name,
+                    icon,
+                    showOnlyIcon: name === "" && icon !== null
+                }
                 : tab
         )
     };

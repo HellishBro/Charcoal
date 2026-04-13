@@ -184,10 +184,28 @@ export function createEditorSessionState(templateInput: string = ""): { state: E
     };
 }
 
-export function hydrateEditorSessionState(incomingState: Partial<EditorSessionState> | null | undefined, fallbackTemplateInput: string = ""): { state: EditorSessionState; templateObject: Template } {
-    const fallback = createEditorSessionState(fallbackTemplateInput);
+export function hydrateEditorSessionState(incomingState: Partial<EditorSessionState> | null | undefined, fallbackTemplateJSON: string = ""): { state: EditorSessionState; templateObject: Template } {
+    const fallback = createEditorSessionState(fallbackTemplateJSON);
 
     if (!incomingState) {
+        // When no state, try to parse fallbackTemplateJSON as JSON
+        if (fallbackTemplateJSON.trim()) {
+            const parsed = getTemplateData(fallbackTemplateJSON);
+            if (parsed.status === "success") {
+                const templateObject = parsed.templateObject;
+                return {
+                    state: {
+                        version: EDITOR_STATE_VERSION,
+                        templateInput: JSON.stringify(templateObject.toJSON(), null, 4),
+                        templateEncoded: templateObject.encodeTemplate(),
+                        status: { type: "success", message: EDITOR_SUCCESS_MESSAGE },
+                        ui: fallback.state.ui,
+                        renderer: fallback.state.renderer
+                    },
+                    templateObject
+                };
+            }
+        }
         return fallback;
     }
 

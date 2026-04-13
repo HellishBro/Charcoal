@@ -43,6 +43,8 @@
     }));
 
     let divElement: HTMLDivElement | null = $state(null);
+    let canvasElement: HTMLCanvasElement | null = $state(null);
+    let webGLRenderer: WebGLRenderer | null = $state(null);
     let maxX = $state(0);
 
     $effect(() => {
@@ -52,6 +54,27 @@
         if (rendererState.cameraZoomTarget !== cameraZoom.target) {
             cameraZoom.target = rendererState.cameraZoomTarget;
         }
+    });
+
+    // Cleanup WebGL context on component unmount
+    $effect(() => {
+        return () => {
+            if (webGLRenderer) {
+                webGLRenderer.dispose();
+                webGLRenderer = null;
+            }
+            if (canvasElement) {
+                // Clear canvas and release WebGL context
+                const gl = canvasElement.getContext('webgl2') || canvasElement.getContext('webgl');
+                if (gl) {
+                    const ext = gl.getExtension('WEBGL_lose_context');
+                    if (ext) {
+                        ext.loseContext();
+                    }
+                }
+                canvasElement = null;
+            }
+        };
     });
 
     let lastTouchPosition: [number, number] = $state([0, 0]);
@@ -95,15 +118,17 @@
     clearInspector();
 }} role="presentation" bind:this={divElement}>
     <Canvas createRenderer={(canvas: HTMLCanvasElement) => {
+        canvasElement = canvas;
         canvas.addEventListener("touchstart", touchStart);
         canvas.addEventListener("touchmove", touchMove);
-        return new WebGLRenderer({
+        webGLRenderer = new WebGLRenderer({
             canvas,
             preserveDrawingBuffer: true,
             alpha: true,
             antialias: true,
             powerPreference: 'high-performance'
         });
+        return webGLRenderer;
     }}>
         <CodeRendererInside
                 bind:editBlockIndex

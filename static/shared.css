@@ -58,7 +58,7 @@ body {
 
 .container {
     background: var(--background-secondary);
-    border-radius: 15px;
+    border-radius: 0;
     padding: 20px;
     box-sizing: border-box;
 }

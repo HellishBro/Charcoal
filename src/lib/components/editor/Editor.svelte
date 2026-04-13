@@ -127,13 +127,6 @@
 
     function updateTemplateJSON() {
         templateDisplay = JSON.stringify(templateObject.toJSON(), null, 4);
-        if (typeof window !== "undefined") {
-            let searchParams = new URLSearchParams(window.location.search);
-            searchParams.set("template", toURLSafeB64(templateObject.encodeTemplate()));
-            let loc = new URL(window.location.href);
-            loc.search = searchParams.toString();
-            replaceState(loc, null);
-        }
         setStatus("success");
     }
 
