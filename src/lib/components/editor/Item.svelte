@@ -35,7 +35,7 @@
         TextComponentConverter,
         validateText, getColorHex
     } from "$lib/minecraft_text";
-    import { type InspectorObject } from "$lib/components/editor/Inspector.svelte";
+    import { type InspectorObject } from "$lib/components/editor/editor-state";
     import { miniMessage } from "$lib/minimessage"
     import {getContext, onMount} from "svelte";
     import {ComponentHTMLConverter, escapeHtml} from "$lib/minecraft_text.ts";
@@ -54,7 +54,7 @@
         item: Item,
         set: (item: Item) => void;
         setTooltip: (data: string, spanColor: string | null, direct?: boolean) => void,
-        setInspectorObjects: (inspectorObjects: InspectorObject[][], cond: boolean) => void,
+        setInspectorObjects: (inspectorObjects: InspectorObject[][] | null) => void,
         clearItem: () => void
     } = $props();
 

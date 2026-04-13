@@ -1,45 +1,26 @@
-<script module lang="ts">
-    export type InspectorObject = {
-        label: string,
-        type: 'StringField' | 'DropDown' | 'NumberField' | 'MiniMessageField' | 'ColorField' | 'PercentageField' | 'BooleanField' | 'ItemField',
-        multiline?: boolean,
-        id: string,
-        options?: { text: string, name: string }[],
-        set: (data: string) => void,
-        get: () => string,
-        placeholder?: string
-    };
-    let inspectorObjects: InspectorObject[][] | null = $state(null);
-    let innerFreeze = $state(false);
-    export function setInspectorObjects(iO: InspectorObject[][] | null) {
-        inspectorObjects = iO;
-        innerFreeze = false;
-    }
-    export function isSpecialCase(): boolean {
-        return innerFreeze;
-    }
-</script>
-
 <script lang="ts">
-    import {Item, type Template, VALUE_TYPES} from "$lib/diamondfire";
+    import { Item, VALUE_TYPES } from "$lib/diamondfire";
     import Checkbox from "$lib/components/Checkbox.svelte";
     import ChestMenuItem from "$lib/components/editor/ChestMenuItem.svelte";
     import MiniMessageRenderer from "$lib/components/MiniMessageRenderer.svelte";
-    import {fastRender} from "$lib/minimessage";
+    import { fastRender } from "$lib/minimessage";
     import DropDown from "$lib/components/DropDown.svelte";
+    import type { InspectorObject } from "$lib/components/editor/editor-state";
 
     let {
-        template = $bindable(),
         inspectingItem = $bindable(),
         inspectingItemItem = $bindable(),
         freezeInDepthView = $bindable(),
+        inspectorObjects = $bindable<InspectorObject[][] | null>(null),
+        inspectorSpecialCase = $bindable(false),
         updateTemplateJSON,
         inspectingTitle
     }: {
-        template: Template,
         inspectingItem: number,
-        inspectingItemItem: Item,
+        inspectingItemItem: Item | null,
         freezeInDepthView: boolean,
+        inspectorObjects: InspectorObject[][] | null,
+        inspectorSpecialCase: boolean,
         updateTemplateJSON: () => void,
         inspectingTitle: string
     } = $props();
@@ -48,7 +29,7 @@
 
     function getPlaceholder(inspectorObject: InspectorObject) {
         if (inspectorObject.placeholder) return inspectorObject.placeholder;
-        let dataType = {StringField: "string", NumberField: "number", MiniMessageField: "minimessage", ColorField: "color", PercentageField: "percent"}[inspectorObject.type];
+        let dataType = { StringField: "string", NumberField: "number", MiniMessageField: "minimessage", ColorField: "color", PercentageField: "percent" }[inspectorObject.type];
         return `${inspectorObject.label} (${dataType})`;
     }
 
@@ -66,7 +47,7 @@
     }
 
     function pointerMove(event: PointerEvent) {
-        if (tooltip !== null) {
+        if (tooltip !== null && tooltipElement !== null) {
             tooltipX = event.clientX - tooltipElement.offsetWidth - 5;
             tooltipY = event.clientY - 5;
         }
@@ -74,9 +55,9 @@
 
     $effect(() => {
         if (!freezeInDepthView) {
-            innerFreeze = false;
+            inspectorSpecialCase = false;
         }
-    })
+    });
 </script>
 
 <div
@@ -107,7 +88,7 @@
                                         id={inspectorObject.id}
                                         name={inspectorObject.id}
                                         oninput={e => {
-                                            inspectorObject.set(document.getElementById(inspectorObject.id).value);
+                                            inspectorObject.set((e.target as HTMLTextAreaElement).value);
                                             updateTemplateJSON();
                                         }}
                                         placeholder={getPlaceholder(inspectorObject)}
@@ -205,7 +186,7 @@
                             ></DropDown>
                         {:else if inspectorObject.type === 'ItemField'}
                             <ChestMenuItem
-                                    bind:freezeInDepthView={innerFreeze}
+                                    bind:freezeInDepthView={inspectorSpecialCase}
                                     deleteItemCb={() => {
                                         inspectorObject.set(null);
                                         inspectorObjects = inspectorObjects.map(row =>
@@ -218,7 +199,7 @@
                                         updateTemplateJSON();
                                     }}
                                     newItemCb={(value: Item) => {
-                                        inspectorObject.set(value)
+                                        inspectorObject.set(value);
                                         inspectorObjects = inspectorObjects.map(row =>
                                             row.map(io =>
                                                 io === inspectorObject
@@ -242,9 +223,9 @@
                                     setThisToInspectingItem={() => {
                                         inspectingItem = -1;
                                         inspectingItemItem = inspectorObject.get();
-                                        setTooltipThis(null);
+                                        setTooltipThis(null, null);
                                     }}
-                                    doInspect={() => innerFreeze}
+                                    doInspect={() => inspectorSpecialCase}
                                     innerItem={inspectorObject.get()}
                                     nullItemBehavior={() => null}
                                     allowedItemsList={VALUE_TYPES}

@@ -2,6 +2,7 @@
     import {
         Codeblock,
         Bracket,
+        Block,
         BLOCK_CATEGORIES,
         Template,
         CATEGORY_ATTRIBUTES,
@@ -9,8 +10,8 @@
         CATEGORY_BRACKETS_MAP, Argument
     } from "$lib/diamondfire";
     import { firstLine, secondLine, thirdLine, fourthLine, CATEGORY_MAP } from '$lib/df_reprs';
-    import { setInspectorObjects } from "$lib/components/editor/Inspector.svelte";
     import { ENTITY_SELECTION_TARGET_DROPDOWN, PLAYER_SELECTION_TARGET_DROPDOWN } from "$lib/components/editor/Item.svelte";
+    import type { EditorRendererState, InspectorObject } from "$lib/components/editor/editor-state";
     import {T, useThrelte} from "@threlte/core";
     import { useTexture, useGltf, Text } from "@threlte/extras";
     import { interactivity } from '@threlte/extras';
@@ -36,6 +37,8 @@
         clickChest,
         editBlockIndex = $bindable(),
         divElement,
+        rendererState = $bindable(),
+        setInspectorObjects,
         updateTemplateJSON
     }: {
         template: Template,
@@ -46,7 +49,9 @@
         cameraZoom: Tween<number>,
         clickChest: (index: number) => void,
         editBlockIndex: number,
-        divElement: HTMLDivElement,
+        divElement: HTMLDivElement | null,
+        rendererState: EditorRendererState,
+        setInspectorObjects: (iO: InspectorObject[][] | null) => void,
         updateTemplateJSON: () => void
     } = $props();
 
@@ -66,7 +71,12 @@
     }
 
     onMount(() => {
-        divElement.addEventListener("contextmenu", event => {
+        const targetElement = divElement;
+        if (targetElement === null) {
+            return;
+        }
+
+        const handleContextMenu = (event: PointerEvent) => {
             event.preventDefault();
             setContextMenu(event, [
                 {
@@ -90,13 +100,20 @@
                     callback: () => {
                         template.blocks = [];
                         selection = [];
+                        startSelection = null;
                         movingSelection = false;
                         updateTemplateJSON();
                         renderQueue = updateRenderQueue();
                     }
                 }
             ]);
-        })
+        };
+
+        targetElement.addEventListener("contextmenu", handleContextMenu);
+
+        return () => {
+            targetElement.removeEventListener("contextmenu", handleContextMenu);
+        };
     });
 
     interactivity({
@@ -354,7 +371,7 @@
         }
 
         if (block.action && allActions[block.category][block.action].subactions.length) {
-            let subactions: {name: str, text: str}[] = [];
+            let subactions: {name: string, text: string}[] = [];
             for (let cate of allActions[block.category][block.action].subactions) {
                 subactions.push(...Object.keys(allActions[cate]).map(k => {
                     let act = allActions[cate][k];
@@ -502,15 +519,49 @@
         for (let index of removingIndices) template.blocks.splice(index, 1);
     }
 
-    let selection = $state([]);
-    let startSelection: boolean | number = $state(false);
-    let movingSelection = $state(false);
+    let selection: number[] = $state([...rendererState.selection]);
+    let startSelection: number | null = $state(rendererState.startSelection);
+    let movingSelection = $state(rendererState.movingSelection);
+
+    function selectionEquals(a: number[], b: number[]): boolean {
+        if (a.length !== b.length) {
+            return false;
+        }
+        return a.every((value, index) => value === b[index]);
+    }
+
+    $effect(() => {
+        if (!selectionEquals(selection, rendererState.selection)) {
+            selection = [...rendererState.selection];
+        }
+        if (startSelection !== rendererState.startSelection) {
+            startSelection = rendererState.startSelection;
+        }
+        if (movingSelection !== rendererState.movingSelection) {
+            movingSelection = rendererState.movingSelection;
+        }
+    });
+
+    $effect(() => {
+        if (
+            !selectionEquals(selection, rendererState.selection) ||
+            startSelection !== rendererState.startSelection ||
+            movingSelection !== rendererState.movingSelection
+        ) {
+            rendererState = {
+                ...rendererState,
+                selection: [...selection],
+                startSelection,
+                movingSelection
+            };
+        }
+    });
 
     function selectBlocks(start: number | null, end?: number) {
         selection = [];
-        startSelection = false;
+        startSelection = null;
         movingSelection = false;
-        if (!start) return;
+        if (start === null || end === undefined) return;
 
         for (let index = start; index <= end; index++) {
             selection.push(index);
@@ -540,7 +591,7 @@
         e.stopImmediatePropagation();
         let options = [];
         if (selection.length == 0) {
-            if (!startSelection) {
+            if (startSelection === null) {
                 options.push({
                     label: "Select",
                     tooltip: "Select this code block.",
@@ -575,7 +626,7 @@
                 tooltip: "Deselect",
                 callback: () => {
                     selection = [];
-                    startSelection = false;
+                    startSelection = null;
                     movingSelection = false;
                 }
             });
