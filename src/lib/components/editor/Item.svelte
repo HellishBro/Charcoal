@@ -70,7 +70,12 @@
     function set(item: Item) {
         setParent(item);
         if (tooltipShowing) {
-            renderTooltip();
+            try {
+                renderTooltip();
+            } catch (error) {
+                console.error("Error rendering tooltip:", error);
+                // Silently continue - don't crash the inspector
+            }
         }
     }
 
@@ -83,7 +88,8 @@
     }
 
     function attrtxt(label: string, data: any, dataCol: string = "white", prepend: boolean = true): string {
-        return (prepend ? "<br>" : "") + `<gray>${label}: </gray><${dataCol}>${escapeHtml(data.toString())}</${dataCol}>`
+        const dataStr = data == null ? "(empty)" : escapeHtml(data.toString());
+        return (prepend ? "<br>" : "") + `<gray>${label}: </gray><${dataCol}>${dataStr}</${dataCol}>`;
     }
 
     function renderTooltip(doTooltip = true) {
@@ -215,23 +221,39 @@
             }
             setInspectorObjects([line]);
         } else if (item instanceof SoundItem) {
-            let variantText = item.variant ? attrtxt("Variant", item.variant) : ""
-            setTooltip(`<white>${escapeHtml(item.sound)}</white>${escapeHtml(variantText)}${attrtxt("Pitch", item.pitch)}${attrtxt("Volume", item.volume)}`);
-            let allSounds = Object.keys(actiondump.sounds).map(sound => {
+            let variantText = item.variant ? attrtxt("Variant", item.variant) : "";
+            let pitchText = item.pitch != null ? attrtxt("Pitch", item.pitch) : "";
+            let volumeText = item.volume != null ? attrtxt("Volume", item.volume) : "";
+            setTooltip(`<white>${escapeHtml(item.sound || "(empty)")}</white>${variantText}${pitchText}${volumeText}`);
+            
+            let allSounds = Object.keys(actiondump.sounds || {}).map(sound => {
                 return {
                     text: sound,
                     name: sound
                 }
             });
-            let variants = actiondump.sounds[item.sound].variants.map(variant => {
-                return {
-                    text: variant,
-                    name: variant
+            
+            let variants = [];
+            try {
+                if (item.sound && actiondump.sounds?.[item.sound]?.variants) {
+                    variants = actiondump.sounds[item.sound].variants.map(variant => {
+                        return {
+                            text: variant,
+                            name: variant
+                        }
+                    });
                 }
-            }) || [{
-                text: "",
-                name: null
-            }];
+            } catch (error) {
+                console.warn("Error loading sound variants:", error);
+            }
+            
+            if (variants.length === 0) {
+                variants = [{
+                    text: "(none)",
+                    name: null
+                }];
+            }
+            
             setInspectorObjects([
                 [
                     {
@@ -281,21 +303,27 @@
                 ],
             ]);
         } else if (item instanceof ParticleItem) {
-            let allowedAttributes: string[] = actiondump.particles[actiondump.particle_category_reverse_map[item.particle]][item.particle].fields;
+            try {
+                let categoryMap = actiondump.particle_category_reverse_map?.[item.particle];
+                let particleData = actiondump.particles?.[categoryMap]?.[item.particle];
+                let allowedAttributes: string[] = particleData?.fields ?? [];
 
-            let attrText = attrtxt("Amount", item.amount) + attrtxt("Spread", (item.spread[0].toString()) + " " + (item.spread[1].toString()));
-            if (allowedAttributes) {
-                attrText += "<br>";
-            }
+                let attrText = attrtxt("Amount", item.amount);
+                if (item.spread && item.spread.length >= 2) {
+                    attrText += attrtxt("Spread", (item.spread[0]?.toString?.() ?? "0") + " " + (item.spread[1]?.toString?.() ?? "0"));
+                }
+                if (allowedAttributes && allowedAttributes.length > 0) {
+                    attrText += "<br>";
+                }
 
-            let attributeOptions = [];
+                let attributeOptions = [];
 
-            for (let attr of allowedAttributes) {
-                if (attr == "Color") {
-                    let col = convert.rgb.hex(item.color) ?? "ff0000";
-                    attrText += attrtxt("Color", "#" + col.toUpperCase(), "#" + col);
-                    attributeOptions.push([{
-                        label: "Color",
+                for (let attr of allowedAttributes) {
+                    if (attr == "Color") {
+                        let col = convert.rgb.hex(item.color) ?? "ff0000";
+                        attrText += attrtxt("Color", "#" + col.toUpperCase(), "#" + col);
+                        attributeOptions.push([{
+                            label: "Color",
                         id: "color",
                         type: "ColorField",
                         set: (data) => {
@@ -551,6 +579,11 @@
                     },
                 ]
             ].concat(attributeOptions));
+            } catch (error) {
+                console.error("Error rendering particle inspector:", error);
+                setTooltip(`<red>Error loading particle data</red>`);
+                setInspectorObjects(null);
+            }
         } else if (item instanceof VectorItem) {
             setTooltip("<" + TYPE_DISPLAY_COLORS_MAP.vec + ">Vector<reset><br>" + attrtxt("X", item.x, "white", false) + attrtxt("Y", item.y) + attrtxt("Z", item.z));
             setInspectorObjects([

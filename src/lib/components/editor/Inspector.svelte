@@ -114,13 +114,23 @@
                                     type="number"
                                     id={inspectorObject.id}
                                     name={inspectorObject.id}
-                                    bind:value={
-                                        () => inspectorObject.get() ?? "",
-                                        v => {
-                                            inspectorObject.set(v);
+                                    value={inspectorObject.get() ?? ""}
+                                    oninput={e => {
+                                        const value = (e.target as HTMLInputElement).value;
+                                        // Solo actualizar si no está vacío
+                                        if (value !== "") {
+                                            inspectorObject.set(parseFloat(value));
                                             updateTemplateJSON();
                                         }
-                                    }
+                                    }}
+                                    onblur={e => {
+                                        const value = (e.target as HTMLInputElement).value;
+                                        // Si quedó vacío después de salir, guardar como 0
+                                        if (value === "") {
+                                            inspectorObject.set(0);
+                                            updateTemplateJSON();
+                                        }
+                                    }}
                                     placeholder={getPlaceholder(inspectorObject)}
                             />
                         {:else if inspectorObject.type === 'ColorField'}
@@ -143,13 +153,15 @@
                                     type="number"
                                     id={inspectorObject.id}
                                     name={inspectorObject.id}
-                                    bind:value={
-                                        () => (inspectorObject.get() * 100).toString(),
-                                        v => {
-                                            inspectorObject.set(v / 100);
+                                    value={(inspectorObject.get() * 100).toString()}
+                                    oninput={e => {
+                                        const value = (e.target as HTMLInputElement).value;
+                                        // Solo actualizar si no está vacío
+                                        if (value !== "") {
+                                            inspectorObject.set(parseFloat(value) / 100);
                                             updateTemplateJSON();
                                         }
-                                    }
+                                    }}
                                     placeholder={getPlaceholder(inspectorObject)}
                                     min="0"
                                     max="100"
