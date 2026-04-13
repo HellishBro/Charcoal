@@ -76,7 +76,7 @@
     <div
             role="presentation"
             onclick={() => visible = false}
-            style="position: fixed; left: 0; top: 0; width: 100vw; height: 100vh; overflow: hidden;"
+            style="position: fixed; left: 0; top: 0; width: 100vw; height: 100vh; overflow: auto;"
             oncontextmenu={e => {
                 visible = false;
                 e.preventDefault();

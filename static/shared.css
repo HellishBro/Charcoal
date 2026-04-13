@@ -32,7 +32,7 @@ body {
     position: relative;
     display: flex;
     flex-direction: column;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .tooltip {
@@ -58,7 +58,7 @@ body {
 
 .container {
     background: var(--background-secondary);
-    border-radius: 15px;
+    border-radius: 0;
     padding: 20px;
     box-sizing: border-box;
 }

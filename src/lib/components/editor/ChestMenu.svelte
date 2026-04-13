@@ -1,11 +1,11 @@
 <script lang="ts">
-    import {Argument, BlockTagItem, Codeblock, Item, ITEM_TYPES, Template} from "$lib/diamondfire";
+    import { Argument, BlockTagItem, Codeblock, Item, ITEM_TYPES, Template } from "$lib/diamondfire";
     import MiniMessageRenderer from "$lib/components/MiniMessageRenderer.svelte";
-    import {range} from "$lib/utils";
-    import {startObfuscateText, stopObfuscatedText} from "$lib/minimessage";
-    import {getContext, onDestroy, onMount} from "svelte";
-    import {secondLine} from "$lib/df_reprs";
-    import {type InspectorObject, isSpecialCase} from "$lib/components/editor/Inspector.svelte";
+    import { range } from "$lib/utils";
+    import { startObfuscateText, stopObfuscatedText } from "$lib/minimessage";
+    import { getContext, onDestroy, onMount } from "svelte";
+    import { secondLine } from "$lib/df_reprs";
+    import type { InspectorObject } from "$lib/components/editor/editor-state";
     import ChestMenuItem from "$lib/components/editor/ChestMenuItem.svelte";
 
     let {
@@ -17,17 +17,19 @@
         dismiss: dismissPassed,
         setInspectorObjects,
         updateTemplateJSON,
-        visible = false
+        visible = false,
+        inspectorSpecialCase = false
     }: {
         blockIndex: number,
         templateObject: Template,
         inspectingItem: number,
         freezeInDepthView: boolean,
-        inspectingItemItem: Item,
+        inspectingItemItem: Item | null,
         dismiss: () => void,
         setInspectorObjects: (iO: InspectorObject[][] | null) => void,
         updateTemplateJSON: () => void,
-        visible: boolean
+        visible: boolean,
+        inspectorSpecialCase: boolean
     } = $props();
 
     let block: Codeblock = $derived(templateObject.blocks[blockIndex]);
@@ -38,6 +40,7 @@
     let spanColor: string | null = $state(null);
     let ttDirect = $state(false);
     let tooltipElement: HTMLElement | null = $state(null);
+    let chestMenuElement: HTMLDivElement | null = $state(null);
 
     let actions = getContext("actiondump").actiondump.actions;
     let actionCategoryMap = getContext("actiondump").actiondump.actions_category_reverse_map;
@@ -50,10 +53,9 @@
     }
 
     function pointerMove(event: PointerEvent) {
-        let chestMenu = document.getElementById("chestmenu");
-        if (tooltip !== null) {
+        if (tooltip !== null && chestMenuElement !== null && tooltipElement !== null) {
             tooltipX = event.clientX + 5;
-            let openLeft = (event.clientX - chestMenu.offsetLeft) > chestMenu.offsetWidth / 2;
+            let openLeft = (event.clientX - chestMenuElement.offsetLeft) > chestMenuElement.offsetWidth / 2;
             if (openLeft) {
                 tooltipX = event.clientX - tooltipElement.offsetWidth - 5;
             }
@@ -74,15 +76,15 @@
         }
     }
 
-    let chestItems: (null | Argument)[] = $state(range(0, 27).map(_ => null));
+    let chestItems: (null | Argument)[] = $state(range(0, 27).map(() => null));
 
     function updateChestItems() {
         if (!block || block.isBracket()) {
-            chestItems = range(0, 27).map(_ => null);
+            chestItems = range(0, 27).map(() => null);
             return;
         }
         let contents = block.args;
-        chestItems = range(0, 27).map(_ => null);
+        chestItems = range(0, 27).map(() => null);
         for (let arg of contents) {
             if (arg.slot > 27) continue;
             chestItems[arg.slot] = arg;
@@ -114,7 +116,7 @@
             style="width: 100%; height: 100%; background: rgba(0, 0, 0, 0.25); position: absolute; top: 0px; left: 0px; cursor: pointer;"
             onclick={dismiss}
     >
-        <div role="presentation" class="container" id="chestmenu" onclick={e => {
+        <div role="presentation" class="container chestmenu" bind:this={chestMenuElement} onclick={e => {
             setInspectorObjects(null);
             freezeInDepthView = false;
             e.stopPropagation();
@@ -132,7 +134,7 @@
                             chestItems[index] = null;
                             chestItems = chestItems;
                             setInspectorObjects(null);
-                            inspectingItem = null;
+                            inspectingItem = -1;
                             freezeInDepthView = false;
                             block.args.splice(getItemIndex(index), 1);
                             updateChestItems();
@@ -165,7 +167,7 @@
                             inspectingItem = getItemIndex(index);
                             inspectingItemItem = block.args[inspectingItem].item;
                         }}
-                        doInspect={() => (!freezeInDepthView || getItemIndex(index) === inspectingItem) && !isSpecialCase()}
+                        doInspect={() => (!freezeInDepthView || getItemIndex(index) === inspectingItem) && !inspectorSpecialCase}
                         innerItem={item ? item.item : null}
                         nullItemBehavior={() => setInspectorObjects(null)}
                         allowedItemsList={blTags.find(v => v.slot === index) ? ITEM_TYPES : ITEM_TYPES.toSpliced(ITEM_TYPES.indexOf("bl_tag"), 1)}
@@ -202,7 +204,7 @@
         color: var(--text-cool);
     }
 
-    #chestmenu {
+    .chestmenu {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
         grid-template-rows: 40px 1fr 1fr 1fr;

@@ -2,7 +2,7 @@
     import Item from "$lib/components/editor/Item.svelte";
     import {itemDefaultValue} from "$lib/diamondfire";
     import {TYPE_DISPLAY_MAP} from "$lib/df_reprs";
-    import type {InspectorObject} from "$lib/components/editor/Inspector.svelte";
+    import type {InspectorObject} from "$lib/components/editor/editor-state";
     import {setContextMenu} from "$lib/components/ContextMenu.svelte";
     import {getContext} from "svelte";
 

@@ -11,17 +11,24 @@
         id: string,
         options: {
             text: string,
-            name: string,
+            name: string | null,
             selected: boolean
         }[],
-        oninput: (name: string) => void
+        oninput: (name: string | null) => void
     } = $props();
 
     let optionsVisible = $state(false);
+    let containerElement: HTMLDivElement | null = $state(null);
 
-    function clickOutside() {
-        optionsVisible = false;
-        value = selectedOption.text;
+    function clickOutside(event: MouseEvent) {
+        const target = event.target as Node;
+        if (containerElement && !containerElement.contains(target)) {
+            optionsVisible = false;
+
+            if (selectedOption) {
+                value = selectedOption.text;
+            }
+        }
     }
 
     onMount(() => {
@@ -32,52 +39,70 @@
         }
     });
 
-    let selectedOption = $derived(options.find(o => o.selected));
-    let value = $derived(selectedOption?.text ?? "");
+    let selectedOption = $derived(options?.find(o => o?.selected));
+    let value = $state("");
+
+    $effect(() => {
+        if (!optionsVisible) {
+            value = selectedOption?.text ?? "";
+        }
+    });
 
     function filter() {
-        if (value == "" || selectedOption?.text?.toLowerCase() == value.toLowerCase()) {
+        if (!options || !Array.isArray(options)) {
+            return [];
+        }
+        if (value === "" || selectedOption?.text?.toLowerCase() === value.toLowerCase()) {
             return options;
         }
-        return options.filter(v => v.text.toLowerCase().includes(value.toLowerCase()) || v.name.toLowerCase().includes(value.toLowerCase()));
+        return options.filter(v => {
+            if (!v) return false;
+            const textMatch = v.text?.toLowerCase().includes(value.toLowerCase()) || false;
+            const nameMatch = v.name?.toString().toLowerCase().includes(value.toLowerCase()) || false;
+            return textMatch || nameMatch;
+        });
     }
 
     let visibleOptions = $derived.by(filter);
 
-    function clickedOption(option) {
+    function clickedOption(option: any) {
         optionsVisible = false;
-        value = option.text;
-        oninput(option.name);
+        if (option && option.text) {
+            value = option.text;
+            oninput(option.name ?? "");
+        }
     }
 </script>
 
-<input
-        name={name}
-        id={id}
-        onclick={e => {
-            e.stopPropagation();
-            optionsVisible = true;
-        }}
-        bind:value={value}
-/>
+<div bind:this={containerElement}>
+    <input
+            name={name}
+            id={id}
+            onclick={e => {
+                e.stopPropagation();
+                optionsVisible = true;
+            }}
+            bind:value={value}
+    />
 
-{#if optionsVisible}
-    <div class="input-like" style="display: flex; flex-direction: column; max-height: 250px; overflow-y: scroll; padding: 7px 0 0 0;">
-        {#each visibleOptions as visibleOption, index}
-            <div
-                    style="color: var(--text); padding: 7px 10px; cursor: pointer; border-bottom: 1px solid var(--text);"
-                    role="option"
-                    tabindex={index}
-                    aria-selected={visibleOption.selected}
-                    onclick={() => {
-                        clickedOption(visibleOption);
-                    }}
-                    onkeydown={e => {
-                        if (e.key === "Enter" || e.key === "Space") {
+    {#if optionsVisible}
+        <div class="input-like" style="display: flex; flex-direction: column; max-height: 250px; overflow-y: scroll; padding: 7px 0 0 0;">
+            {#each visibleOptions as visibleOption, index}
+                <div
+                        style="color: var(--text); padding: 7px 10px; cursor: pointer; border-bottom: 1px solid var(--text);"
+                        role="option"
+                        tabindex={index}
+                        aria-selected={visibleOption.selected}
+                        onclick={() => {
                             clickedOption(visibleOption);
-                        }
-                    }}
-            >{visibleOption.text}</div>
-        {/each}
-    </div>
-{/if}
+                        }}
+                        onkeydown={e => {
+                            if (e.key === "Enter" || e.key === "Space") {
+                                clickedOption(visibleOption);
+                            }
+                        }}
+                >{visibleOption.text}</div>
+            {/each}
+        </div>
+    {/if}
+</div>

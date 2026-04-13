@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1 viewport-fit=cover" />
     <meta name="color-scheme" content="dark light" />
     <link rel="stylesheet" href="/shared.css" />
-    <link rel="stylesheet" href="/theme_light.css" id="themeLinkElement" />
+    <link rel="stylesheet" href="/theme_charcoal.css" id="themeLinkElement" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.css"/>
     <script src="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.js"></script>
     %sveltekit.head%
@@ -16,7 +16,7 @@
 
 <script>
     let theme = window.localStorage.getItem('theme');
-    setTheme(theme ?? "light");
+    setTheme(theme ?? "charcoal");
     fetch("/themes.json").then((res) => res.json()).then(allowedThemes => {
         if (Object.keys(allowedThemes).indexOf(theme) === -1) {
             theme = Object.keys(allowedThemes)[0];
