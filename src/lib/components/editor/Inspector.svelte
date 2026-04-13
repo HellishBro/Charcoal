@@ -63,7 +63,7 @@
 <div
         class="container coolContainer"
         oncreate={ref => inDepthElement = ref}
-        style="display: flex; flex-direction: column; position: relative; cursor: auto; overflow: scroll"
+        style="display: flex; flex-direction: column; position: relative; cursor: auto; overflow-y: auto; min-height: 0; min-width: 0;"
 >
     <div>
         <span style="font-size: 20px; display: inline">Inspector</span>

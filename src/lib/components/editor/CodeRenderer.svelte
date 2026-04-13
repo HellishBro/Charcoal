@@ -113,7 +113,7 @@
         };
     }
     ev.preventDefault();
-}} style="height: 100%" onclick={() => {
+}} style="height: 100%; min-height: 0; min-width: 0;" onclick={() => {
     editBlockIndex = -1;
     clearInspector();
 }} role="presentation" bind:this={divElement}>

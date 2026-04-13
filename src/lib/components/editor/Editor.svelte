@@ -235,13 +235,13 @@
 
 <div class="container" class:mobile={isMobile.isMobile}>
     <div class="import-export">
-        <div style="position: relative">
+        <div style="position: relative; min-height: 0; min-width: 0;">
             <textarea
                     bind:value={templateDisplay}
                     oninput={inputTemplate}
                     onblur={updateTemplateJSON}
                     placeholder="Enter template JSON, compressed template JSON, or codetemplatedata..."
-                    style="overflow: scroll; resize: none; height: 100%; width: 100%; box-sizing: border-box; position: relative"
+                    style="overflow-y: auto; resize: none; height: 100%; width: 100%; box-sizing: border-box; position: relative"
                     autocomplete="off"
                     autocapitalize="off"
                     spellcheck="false"
@@ -250,7 +250,7 @@
         </div>
         <button onclick={sendTemplate}>Send Template</button>
     </div>
-    <div style="position: relative; height: 100%; min-height: 0; box-sizing: border-box;">
+    <div style="position: relative; height: 100%; min-height: 0; min-width: 0; box-sizing: border-box;">
         <CodeRenderer
                 bind:template={templateObject}
                 bind:editBlockIndex
@@ -296,6 +296,11 @@
         align-items: stretch;
     }
 
+    .container > * {
+        min-width: 0;
+        min-height: 0;
+    }
+
     .container.mobile {
         grid-template-columns: 1fr;
         grid-template-rows: 20% 1fr 20%;
@@ -307,6 +312,7 @@
         grid-template-columns: 1fr;
         gap: 20px;
         min-height: 0;
+        min-width: 0;
         height: 100%;
         box-sizing: border-box;
         align-items: stretch;
